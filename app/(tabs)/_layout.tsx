@@ -10,10 +10,13 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import Icon from 'react-native-vector-icons/MaterialIcons'; 
 
 import { FloatingAction } from "react-native-floating-action";
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const navigation = useNavigation();
+
 
   const actions = [
     {
@@ -92,6 +95,7 @@ export default function TabLayout() {
     color={Colors.primary}
     distanceToEdge={{vertical:60, horizontal: 20}}
     onPressItem={name => {
+      navigation.navigate(name=='rental'?"HomeRental":"OtherRental")
       console.log(`selected button: ${name}`);
     }}
   />

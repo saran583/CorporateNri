@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 
-const renderCard = (title, price, location, features) => (
-    <View style={styles.card}>
+const renderCard = (title, price, location, features,width=Dimensions.get('window').width * 0.85) => (
+    <View style={[styles.card, {width: width}]}>
       <View style={styles.cardHeader}>
         <Image
           source={{ uri: 'https://via.placeholder.com/50' }}
@@ -13,16 +13,19 @@ const renderCard = (title, price, location, features) => (
       <Text style={styles.description}>
         Enjoy the convenience of a clubhouse, kids play area, and maintenance staff
       </Text>
+      <View style={{display: "flex", flexDirection:"row", width:"100%", justifyContent: "space-between"}}>
       <TouchableOpacity>
         <Text style={styles.location}>{location}</Text>
       </TouchableOpacity>
+      <Text style={styles.price}>${price}</Text>
+      </View>
       <View style={styles.features}>
         {features.map((feature, index) => (
           <Text key={index} style={styles.featureBadge}>{feature}</Text>
         ))}
       </View>
       <View style={styles.footer}>
-        <Text style={styles.price}>${price}</Text>
+      <Text style={styles.time}>Posted By: John Doe</Text>
         <Text style={styles.time}>15 minutes ago</Text>
       </View>
     </View>
@@ -42,7 +45,7 @@ const renderCard = (title, price, location, features) => (
       color: '#333',
     },
     card: {
-      width: Dimensions.get('window').width * 0.85, // 70% of screen width
+      // width: width, // 70% of screen width
       backgroundColor: '#fff',
       borderRadius: 10,
       padding: 15,
@@ -104,7 +107,7 @@ const renderCard = (title, price, location, features) => (
       marginBottom: 0
     },
     price: {
-      fontSize: 12,
+      fontSize: 15,
       fontWeight: 'bold',
       color: '#28a745',
     },

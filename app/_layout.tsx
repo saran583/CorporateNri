@@ -13,6 +13,9 @@ import LoginScreen from '@/components/ui/LoginScreen';
 import { FloatingAction } from 'react-native-floating-action';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from '@/constants/Colors';
+import HomeRentalForm from '@/components/ui/HomeRentalForm';
+import OtherRentalForm from '@/components/ui/OtherRentalForm';
+import SignUpPage from '@/components/ui/SignUpPage';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashPage.preventAutoHideAsync();
@@ -63,39 +66,31 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      {/* <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-        <Stack.Screen name="splash" component={SplashScreen} />
-      </Stack> */}
 
 {/* <NavigationContainer> */}
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Navigator >
+        <Stack.Screen name="Splash" component={SplashScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={LoginScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="SignUp" component={SignUpPage}  options={{ headerShown: false }} />
+
         {/* <Stack.Screen name="Signup" component={SignupScreen} /> */}
-        <Stack.Screen name="Home" component={HomeScreen} 
-        options={{
-            title: 'tests', // Title for the AppBar
-            headerStyle: {
-              backgroundColor: '#ffffff', // AppBar background color
-            },
-            headerTintColor: '#FFFFFF', // Text color
-            headerTitleStyle: {
-              fontWeight: 'bold', // Title style
-            },
-          }}
-           />
+        <Stack.Screen name="Home" component={HomeScreen}  options={{ headerShown: false }}          />
+        <Stack.Screen name="HomeRental" component={HomeRentalForm} options={{
+            headerTitle: "Create Home Rental",
+            headerStyle: { backgroundColor: Colors.primary },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }} />
+        <Stack.Screen name="OtherRental" component={OtherRentalForm} options={{
+            headerTitle: "Other Listing",
+            headerStyle: { backgroundColor: Colors.primary },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }} />
+
+
       </Stack.Navigator>
-    {/* </NavigationContainer> */}
-    {/* <FloatingAction
-    actions={actions}
-    color={Colors.primary}
-    distanceToEdge={{vertical:60, horizontal: 20}}
-    onPressItem={name => {
-      console.log(`selected button: ${name}`);
-    }}
-  /> */}
+   
 
 
 

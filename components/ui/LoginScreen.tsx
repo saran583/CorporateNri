@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/Colors';
 import React, { useState } from 'react';
 import {
   View,
@@ -106,7 +107,7 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.signupButton}
-            onPress={() => navigation.navigate('Signup')}
+            onPress={() => navigation.navigate('SignUp')}
           >
             <Text style={styles.signupButtonText}>Sign Up</Text>
           </TouchableOpacity>
@@ -119,7 +120,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#cce7ff',
+    backgroundColor: Colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   form: {
-    backgroundColor: '#e6f7ff',
+    backgroundColor: Colors.secondary,
     width: '100%',
     borderRadius: 10,
     padding: 20,
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   loginButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: Colors.primary,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -195,16 +196,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   signupButton: {
-    backgroundColor: '#ff4d4d',
+    backgroundColor: '#fff',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     flex: 1,
     alignItems: 'center',
-    marginLeft: 10,
+    marginLeft: 10
   },
   signupButtonText: {
-    color: '#fff',
+    color: Colors.primary,
     fontWeight: 'bold',
   },
 });

@@ -1,7 +1,7 @@
 import CardLayout from '@/components/ui/CardLayout';
 import renderCard from '@/components/ui/CardRenderer';
 import { Colors } from '@/constants/Colors';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, ScrollView, FlatList } from 'react-native';
 
 export default function HomeScreen() {
@@ -15,7 +15,9 @@ export default function HomeScreen() {
   ];
 
 
+  const flatListRef = useRef(null);
   const windowWidth = Dimensions.get('window').width;
+  const [currentIndex, setCurrentIndex] = useState(0);
   const cardWidth = windowWidth; // Card width set to 70% of the screen width
 
   const renderCards = ({ item }) => (
@@ -29,11 +31,35 @@ export default function HomeScreen() {
   );
 
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % data.length;
+        flatListRef.current?.scrollToIndex({ animated: true, index: nextIndex });
+        return nextIndex;
+      });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [data.length]);
+
+  const onViewableItemsChanged = useRef(({ viewableItems }) => {
+    if (viewableItems.length > 0) {
+      setCurrentIndex(viewableItems[0].index);
+    }
+  }).current;
+
+  const viewabilityConfig = {
+    itemVisiblePercentThreshold: 50,
+  };
+
+
   return (
-    <View style={styles.homeContainer}>
+    <ScrollView style={styles.homeContainer}>
    <View style={styles.container}>
     <Text style={styles.title}>Top Stories</Text>
       <FlatList
+        ref={flatListRef}
         data={data}
         renderItem={renderCards}
         keyExtractor={(item) => item.id}
@@ -45,7 +71,20 @@ export default function HomeScreen() {
         contentContainerStyle={{
           paddingHorizontal: (windowWidth - cardWidth) / 2, // Center-align the cards
         }}
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={viewabilityConfig}
       />
+       <View style={styles.dotsContainer}>
+        {data.map((_, index) => (
+          <View
+            key={index}
+            style={[
+              styles.dot,
+              index === currentIndex ? styles.activeDot : styles.inactiveDot,
+            ]}
+          />
+        ))}
+      </View>
     </View>
 
     <View style={styles.container}>
@@ -63,6 +102,17 @@ export default function HomeScreen() {
           paddingHorizontal: (windowWidth - cardWidth) / 2, // Center-align the cards
         }}
       />
+       {/* <View style={styles.dotsContainer}>
+        {data.map((_, index) => (
+          <View
+            key={index}
+            style={[
+              styles.dot,
+              index === currentIndex ? styles.activeDot : styles.inactiveDot,
+            ]}
+          />
+        ))}
+      </View> */}
     </View>
 
     <View style={styles.container}>
@@ -80,8 +130,21 @@ export default function HomeScreen() {
           paddingHorizontal: (windowWidth - cardWidth) / 2, // Center-align the cards
         }}
       />
+       {/* <View style={styles.dotsContainer}>
+        {data.map((_, index) => (
+          <View
+            key={index}
+            style={[
+              styles.dot,
+              index === currentIndex ? styles.activeDot : styles.inactiveDot,
+            ]}
+          />
+        ))}
+      </View> */}
     </View>
-  </View>
+
+    
+  </ScrollView>
   );
 }
 
@@ -143,5 +206,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.primary,
     marginLeft: 15
+  },
+  dotsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    // marginTop: 10,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 4,
+  },
+  activeDot: {
+    backgroundColor: "#0078D4",
+  },
+  inactiveDot: {
+    backgroundColor: "#C4C4C4",
   },
 });

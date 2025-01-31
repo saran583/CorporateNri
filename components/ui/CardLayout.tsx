@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import renderCard from './CardRenderer';
 
 const CardLayout = () => {
@@ -7,15 +7,23 @@ const CardLayout = () => {
   return (
     <ScrollView style={styles.container}>
       {/* <Text style={styles.sectionTitle}>Top Stories</Text> */}
-      {renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"])}
+      {renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"], Dimensions.get('window').width * 0.93)}
       
       {/* <Text style={styles.sectionTitle}>Latest Posts</Text> */}
-      {renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"])}
+      {renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"], Dimensions.get('window').width * 0.93)}
       
       {/* <Text style={styles.sectionTitle}>Featured Posts</Text> */}
-      {renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"])}
+      {renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"], Dimensions.get('window').width * 0.93)}
 
-      {renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"])}
+      {renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"], Dimensions.get('window').width * 0.93)}
+
+      {renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"], Dimensions.get('window').width * 0.93)}
+
+      {renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"], Dimensions.get('window').width * 0.93)}
+      
+      {renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"], Dimensions.get('window').width * 0.93)}
+
+{renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"], Dimensions.get('window').width * 0.93)}
 
     </ScrollView>
   );
@@ -26,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f0f8ff',
     paddingHorizontal: 10,
-    paddingLeft: '5%'
+    paddingLeft: 5
     // justifyContent: 'space-around'
   },
   sectionTitle: {
