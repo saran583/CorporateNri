@@ -16,6 +16,7 @@ import { Colors } from '@/constants/Colors';
 import HomeRentalForm from '@/components/ui/HomeRentalForm';
 import OtherRentalForm from '@/components/ui/OtherRentalForm';
 import SignUpPage from '@/components/ui/SignUpPage';
+import UtilityRental from '@/components/ui/UtilityForm';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashPage.preventAutoHideAsync();
@@ -24,7 +25,7 @@ const Stack = createStackNavigator();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require('../assets/fonts/Quattrocento-Regular.ttf'),
   });
 
   useEffect(() => {
@@ -87,6 +88,19 @@ export default function RootLayout() {
             headerTintColor: "#fff",
             headerTitleStyle: { fontWeight: "bold" },
           }} />
+          <Stack.Screen name="UtilityRental" component={UtilityRental} options={{
+            headerTitle: "Utility Listing",
+            headerStyle: { backgroundColor: Colors.primary },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }} />
+
+          {/* <Stack.Screen name="RentalDetails" component={RentalDetails} options={{
+            headerTitle: "Rental Details",
+            headerStyle: { backgroundColor: Colors.primary },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }} /> */}
 
 
       </Stack.Navigator>

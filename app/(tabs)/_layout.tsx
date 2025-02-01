@@ -95,7 +95,7 @@ export default function TabLayout() {
     color={Colors.primary}
     distanceToEdge={{vertical:60, horizontal: 20}}
     onPressItem={name => {
-      navigation.navigate(name=='rental'?"HomeRental":"OtherRental")
+      navigation.navigate(name=='rental'?"HomeRental":name=='other'?"OtherRental":"UtilityRental")
       console.log(`selected button: ${name}`);
     }}
   />

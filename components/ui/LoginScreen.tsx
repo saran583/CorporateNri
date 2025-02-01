@@ -122,18 +122,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.primary,
     alignItems: 'center',
-    justifyContent: 'center',
     padding: 20,
+    // paddingTop: 25,
+    height: '100%',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#0066cc',
+    color: Colors.secondary,
     marginBottom: 5,
   },
   subtitle: {
     fontSize: 14,
-    color: '#007bff',
+    color:Colors.secondary,
     marginBottom: 20,
   },
   form: {
@@ -146,6 +147,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 5,
+    justifyContent: 'center',
+    margin: "auto"
   },
   loginTitle: {
     fontSize: 22,

@@ -12,7 +12,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package":"CorporateNRI.RentalsApp",
+      "package": "CorporateNRI.RentalsApp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -33,10 +33,19 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+        
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "ea0d7570-8f55-423f-a78e-6b3162dc60ca"
+      }
     }
   }
 }

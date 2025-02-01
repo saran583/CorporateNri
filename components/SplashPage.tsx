@@ -1,5 +1,6 @@
+import { Colors } from "@/constants/Colors";
 import { useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { Dimensions, Image, StyleSheet } from "react-native";
 import { Text, View } from "react-native";
 
 export default function SplashScreen ({ navigation }) {
@@ -12,7 +13,11 @@ export default function SplashScreen ({ navigation }) {
   
     return (
       <View style={styles.splashContainer}>
-        <Text style={styles.splashText}>Welcome to My App</Text>
+        {/* <Text style={styles.splashText}>Corporate NRI</Text> */}
+        <Image
+        source={require("../assets/images/CNLogo.png")}
+        style={styles.image}
+      />
       </View>
     );
   };
@@ -22,12 +27,12 @@ export default function SplashScreen ({ navigation }) {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#4CAF50',
+      backgroundColor: Colors.primary,
     },
     splashText: {
-      fontSize: 24,
+      fontSize: 35,
       fontWeight: 'bold',
-      color: '#FFFFFF',
+      color: Colors.secondary,
     },
     homeContainer: {
       flex: 1,
@@ -39,5 +44,10 @@ export default function SplashScreen ({ navigation }) {
       fontSize: 20,
       fontWeight: 'bold',
       color: '#000000',
+    },
+    image: {
+      width: Dimensions.get('window').width * 0.95, // Set image width
+      height: 200, // Set image height
+      resizeMode: 'contain', // Ensures full image is shown
     },
   });

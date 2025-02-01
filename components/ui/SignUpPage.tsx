@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { Colors } from '@/constants/Colors';
 
 const SignUpPage = () => {
   const { control, handleSubmit, formState: { errors } } = useForm();
+  const [showOTP,setShowOTP] = useState(false)
 
   const onSubmit = (data) => {
+    if(!showOTP){
+      setShowOTP(true)
+    }
     console.log(data);
   };
+
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -124,8 +130,31 @@ const SignUpPage = () => {
           {errors.mobileNumber && <Text style={styles.error}>{errors.mobileNumber.message}</Text>}
         </View>
 
+
+        {showOTP&&<View style={styles.inputContainer}>
+          <Text style={styles.label}>OTP</Text>
+          <Controller
+            control={control}
+            rules={{
+              required: 'Mobile number is required'
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={[styles.input, errors.otp && styles.errorInput]}
+                onBlur={onBlur}
+                value={value}
+                onChangeText={onChange}
+                placeholder="Enter OTP"
+                keyboardType="phone-pad"
+              />
+            )}
+            name="otp"
+          />
+          {errors.mobileNumber && <Text style={styles.error}>{errors.otp.message}</Text>}
+        </View>}
+
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit(onSubmit)}>
-          <Text style={styles.submitText}>Sign Up</Text>
+          <Text style={styles.submitText}> { showOTP?"Sign UP":"Get OTP"}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

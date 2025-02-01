@@ -1,8 +1,24 @@
+
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 
 const renderCard = (title, price, location, features,width=Dimensions.get('window').width * 0.85) => (
-    <View style={[styles.card, {width: width}]}>
+    <View style={[styles.card, {width: width}]} 
+    // onPress={()=>{
+    //   const navigation = useNavigation;
+    //   navigation.navigate("RentalDetails", {
+    //     car: {
+    //       name: "Aston Martin 2024",
+    //       model: "DB12",
+    //       price: 330000,
+    //       location: "Texas, Washington",
+    //       description: "This two-seater car has a 4.0L V8 or 5.2L V12 petrol engine, and is available with automatic or manual transmission. It has a ground clearance of 120mm and a length of 4800 mm with a 2.83 m3 boot space.",
+    //       year: 2024
+    //     }
+    //   });
+    // }}
+    >
       <View style={styles.cardHeader}>
         <Image
           source={{ uri: 'https://via.placeholder.com/50' }}
