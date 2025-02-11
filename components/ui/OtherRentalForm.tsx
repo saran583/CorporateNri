@@ -1,17 +1,48 @@
 import { Colors } from "@/constants/Colors";
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Button, ScrollView, TouchableOpacity, CheckBox, Switch } from "react-native";
+import * as ImagePicker from 'expo-image-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+
+
+import { View, Text, TextInput, StyleSheet, Image, ScrollView, TouchableOpacity, CheckBox, Switch, Modal, FlatList } from "react-native";
 
 const OtherRentalForm = () => {
     const [form, setForm] = useState({
       title: "",
       subject: "",
-      // contact: "",
-      features: "",
+      keyDates: new Date(),
       additionalDetails: "",
+      category: ""
     });
   
     const [errors, setErrors] = useState({});
+    const [modalVisible, setModalVisible] = useState(false);
+    const [pictures, setPictures] = useState([]);
+    const [isFromDateVisible, setIsFromDateVisible] = useState(false);
+    
+    const categories = ["Travel Companion", "Cars", "Medical Support", "Community", "Vouchers or Offers", "Others"];
+    const blurhash =
+    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+  
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsMultipleSelection: true,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setPictures(result.assets);
+    } 
+  };
+
+
 
   const handleInputChange = (field, value) => {
     setForm({ ...form, [field]: value });
@@ -25,6 +56,7 @@ const OtherRentalForm = () => {
     const newErrors = {};
     Object.keys(form).forEach((key) => {
       if (key !== "additionalDetails" && form[key].toString().trim() === "") {
+        console.log("error", key)
         newErrors[key] = "This field is required";
       }
     });
@@ -47,15 +79,13 @@ const OtherRentalForm = () => {
       />
       {errors.title && <Text style={styles.errorText}>{errors.title}</Text>}
 
-      {/* <Text style={styles.label}>Contact</Text>
-      <TextInput
-        style={[styles.input, errors.contact && styles.errorInput]}
-        value={form.contact}
-        onChangeText={(text) => handleInputChange("contact", text)}
-        placeholder="Enter contact details"
-        keyboardType="phone-pad"
-      />
-      {errors.contact && <Text style={styles.errorText}>{errors.contact}</Text>} */}
+      <Text style={styles.label}>Category</Text>
+      <TouchableOpacity style={[styles.input, errors.category && styles.errorInput]} onPress={() => setModalVisible(true)}>
+        <Text style={form.category ? styles.textSelected : styles.textPlaceholder}>
+          {form.category || "Select Category"}
+        </Text>
+      </TouchableOpacity>
+      {errors.category && <Text style={styles.errorText}>{errors.category}</Text>}
 
       <Text style={styles.label}>Subject</Text>
       <TextInput
@@ -66,14 +96,59 @@ const OtherRentalForm = () => {
       />
       {errors.subject && <Text style={styles.errorText}>{errors.subject}</Text>}
 
-      <Text style={styles.label}>Features</Text>
-      <TextInput
-        style={[styles.input, errors.features && styles.errorInput]}
-        value={form.features}
-        onChangeText={(text) => handleInputChange("features", text)}
-        placeholder="Enter features"
-      />
-      {errors.features && <Text style={styles.errorText}>{errors.features}</Text>}
+
+      <Text style={styles.label}>Key Date</Text>
+      <>
+              <TouchableOpacity
+              onPress={() => setIsFromDateVisible(true)}
+              style={{
+                padding: 10,
+                borderWidth: 1,
+                borderColor: '#ccc',
+                borderRadius: 5,
+                backgroundColor: "#fff"
+              }}
+            >
+              <Text>{form.keyDates.toDateString()}</Text>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              isVisible={isFromDateVisible}
+              mode="date"
+              onConfirm={(selectedDate) => {
+                setIsFromDateVisible(false);
+                handleInputChange("keyDates", selectedDate)
+              }}
+              onCancel={() => setIsFromDateVisible(false)}
+            />
+              </>
+
+
+{/* <View style={styles.rowItem}> */}
+      
+      {/* </View> */}
+
+      {/* Modal for Dropdown */}
+      <Modal visible={modalVisible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <FlatList
+              data={categories}
+              keyExtractor={(item) => item}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.item}
+                  onPress={() => {
+                    handleInputChange("category", item)
+                    setModalVisible(false);
+                  }}
+                >
+                  <Text style={styles.itemText}>{item}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        </View>
+      </Modal>
 
       <Text style={styles.label}>Additional Details</Text>
       <TextInput
@@ -83,6 +158,22 @@ const OtherRentalForm = () => {
         placeholder="Enter additional details"
         multiline
       />
+
+      <Text style={styles.label}>Upload Pictures:</Text>
+        <TouchableOpacity onPress={pickImage} style={styles.button}>
+          <Text style={styles.buttonText}>Choose Images</Text>
+        </TouchableOpacity>
+
+        {/* Display Selected Images */}
+        <FlatList
+          horizontal
+          data={pictures}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => <Image source={{ uri: item.uri }} placeholder={{ blurhash }}
+          contentFit="cover"
+          transition={1000} style={styles.image} />}
+        />
+
 
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
         <Text style={styles.submitButtonText}>Submit</Text>
@@ -95,7 +186,7 @@ const OtherRentalForm = () => {
     container: {
       padding: 16,
       backgroundColor: Colors.secondary,
-      height: "100%"
+      minHeight: "100%"
     },
     scrollContainer:{
         padding: 16
@@ -186,6 +277,50 @@ const OtherRentalForm = () => {
         marginBottom: 16,
         fontSize: 14,
       },
+      textPlaceholder: {
+        color: "#aaa",
+      },
+      textSelected: {
+        color: "#000",
+      },
+      modalContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+      },
+      modalContent: {
+        width: "80%",
+        backgroundColor: "white",
+        borderRadius: 10,
+        padding: 10,
+      },
+      item: {
+        padding: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: "#ddd",
+      },
+      itemText: {
+        fontSize: 16,
+      },
+      closeButton: {
+        padding: 15,
+        alignItems: "center",
+      },
+      closeButtonText: {
+        color: "red",
+        fontSize: 16,
+      },
+      button: { backgroundColor: Colors.primary, padding: 10, borderRadius: 5, marginTop: 10 },
+  addButton: { backgroundColor: "green" },
+  buttonText: { color: "white", textAlign: "center", fontWeight: "bold" },
+  image: { width: 60, height: 60, margin: 5 },
+  images: {
+    flex: 1,
+    width: 60,
+    height: 60,
+    margin: "auto",
+  },
   });
   
 

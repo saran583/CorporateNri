@@ -20,7 +20,7 @@ export default function TabLayout() {
 
   const actions = [
     {
-      text: "Utility",
+      text: "Commerce",
       icon:<IconSymbol size={28} name="house.fill" color="#FFF" />,
       name: "utility",
       position: 2,

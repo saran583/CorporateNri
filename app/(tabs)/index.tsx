@@ -1,6 +1,7 @@
 import CardLayout from '@/components/ui/CardLayout';
 import renderCard from '@/components/ui/CardRenderer';
 import { Colors } from '@/constants/Colors';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, ScrollView, FlatList } from 'react-native';
 
@@ -19,13 +20,14 @@ export default function HomeScreen() {
   const windowWidth = Dimensions.get('window').width;
   const [currentIndex, setCurrentIndex] = useState(0);
   const cardWidth = windowWidth; // Card width set to 70% of the screen width
+  const navigation = useNavigation()
 
   const renderCards = ({ item }) => (
    // <View style={[styles.card, { backgroundColor: item.color }]}>
     //{ /* <Text style={styles.cardTitle}>{item.text}</Text> */ }
     //{ /* <CardLayout title="Villa for Sale" price="$35000" location="texas" features={["pool", "parking", "Gym", "SPA"]} /> */}
      
-      renderCard("3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"])
+      renderCard(navigation, "3bhk Villa For Sale", "30000", "Texas, USA", ["Gym", "Parking", "ClubHouse"])
     
  //</View>
   );

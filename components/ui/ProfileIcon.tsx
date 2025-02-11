@@ -1,7 +1,9 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const ProfileIcon = ({ name, size = 50, backgroundColor = "#0078D4", textColor = "#FFFFFF" }) => {
+  const navigation = useNavigation();
   // Extract initials from the name
   const getInitials = (name) => {
     if (!name) return "";
@@ -13,6 +15,7 @@ const ProfileIcon = ({ name, size = 50, backgroundColor = "#0078D4", textColor =
   const initials = getInitials(name);
 
   return (
+    <TouchableOpacity onPress={()=>{ navigation.navigate("Profile")}}>
     <View
       style={[
         styles.container,
@@ -28,6 +31,7 @@ const ProfileIcon = ({ name, size = 50, backgroundColor = "#0078D4", textColor =
         {initials}
       </Text>
     </View>
+    </TouchableOpacity>
   );
 };
 

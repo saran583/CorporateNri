@@ -9,7 +9,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "CorporateNRI.RentalsApp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "CorporateNRI.RentalsApp",
@@ -33,7 +37,6 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-        
       ]
     ],
     "experiments": {

@@ -11,15 +11,16 @@ import {
   StyleSheet,
   Dimensions,
   Button,
+  Modal,
 } from "react-native";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { Colors } from "@/constants/Colors";
 
 const UtilityRental = () => {
-  const [title, setTitle] = useState("");
   const [type, setType] = useState("");
   const [location, setLocation] = useState("");
+  const [pinCode, setPinCode] = useState("")
 
   const [utilities, setUtilities] = useState([]);
   const [itemName, setItemName] = useState("");
@@ -33,6 +34,9 @@ const UtilityRental = () => {
   const [isFromDateVisible, setIsFromDateVisible] = useState(false);
   const [toDate, setToDate] = useState(new Date());
   const [isToDateVisible, setIsToDateVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const categories = ['house','car', 'baby', 'kitchen', 'move out', 'others']
+  
   
 
   // Open Image Picker
@@ -88,7 +92,7 @@ const UtilityRental = () => {
 
   // Submit the form
   const handleSubmit = () => {
-    if (!title || !type || !location) {
+    if ( !type || !location) {
       Alert.alert("Error", "Please fill all required fields.");
       return;
     }
@@ -99,7 +103,6 @@ const UtilityRental = () => {
     }
 
     const rentalData = {
-      title,
       type,
       location,
       utilities,
@@ -113,27 +116,59 @@ const UtilityRental = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.header}>Utility Rental</Text>
+      <Text style={styles.header}>Commerce Rental</Text>
 
       {/* Title */}
-      <Text style={styles.label}>Title:</Text>
-      <TextInput value={title} onChangeText={setTitle} style={styles.input} />
+      {/* <Text style={styles.label}>Title:</Text>
+      <TextInput value={title} onChangeText={setTitle} style={styles.input} /> */}
 
       {/* Type */}
-      <Text style={styles.label}>Type:</Text>
-      <TextInput value={type} onChangeText={setType} style={styles.input} />
+      <Text style={styles.label}>Category:</Text>
+      <TouchableOpacity style={styles.input} onPress={() => setModalVisible(true)}>
+              <Text style={type ? styles.textSelected : styles.textPlaceholder}>
+                {type || ""}
+              </Text>
+            </TouchableOpacity>
+
+
+            <Modal visible={modalVisible} transparent animationType="slide">
+                    <View style={styles.modalContainer}>
+                      <View style={styles.modalContent}>
+                        <FlatList
+                          data={categories}
+                          keyExtractor={(item) => item}
+                          renderItem={({ item }) => (
+                            <TouchableOpacity
+                              style={styles.item}
+                              onPress={() => {
+                               setType(item)
+                                setModalVisible(false);
+                              }}
+                            >
+                              <Text style={styles.itemText}>{item}</Text>
+                            </TouchableOpacity>
+                          )}
+                        />
+                      </View>
+                    </View>
+                  </Modal>
+
+      <Text style={styles.label}>Pin Code:</Text>
+      <TextInput value={pinCode} keyboardType="numeric" onChangeText={setPinCode} style={styles.input} />
 
       {/* Location */}
-      <Text style={styles.label}>Location:</Text>
+      <Text style={styles.label}>Location Link:</Text>
       <TextInput value={location} onChangeText={setLocation} style={styles.input} />
 
       {/* Utility Item Card */}
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Add Utility Item</Text>
+        <Text style={styles.cardTitle}>Add Commerce Item  {utilities.length + 1}</Text>
 
         <Text style={styles.label}>Item Name:</Text>
-        <TextInput value={itemName} onChangeText={setItemName} style={styles.input} />
+        <TextInput value={itemName} placeholder="Enter Item Name" onChangeText={setItemName} style={styles.input} />
 
+      <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between'}}>
+        <View>
         <Text style={styles.label}>Available From:</Text>
         <>
         <TouchableOpacity
@@ -143,7 +178,7 @@ const UtilityRental = () => {
           borderWidth: 1,
           borderColor: '#ccc',
           borderRadius: 5,
-          width: 200,
+          width: 150,
         }}
       >
         <Text>{fromDate.toDateString()}</Text>
@@ -153,12 +188,15 @@ const UtilityRental = () => {
         mode="date"
         onConfirm={(selectedDate) => {
           setIsFromDateVisible(false);
+          
           setFromDate(selectedDate);
         }}
         onCancel={() => setIsFromDateVisible(false)}
       />
-    </>
+        </>
+        </View>
 
+        <View>
         <Text style={styles.label}>Available To:</Text>
         <>
         <TouchableOpacity
@@ -168,7 +206,7 @@ const UtilityRental = () => {
           borderWidth: 1,
           borderColor: '#ccc',
           borderRadius: 5,
-          width: 200,
+          width: 150,
         }}
       >
         <Text>{toDate.toDateString()}</Text>
@@ -178,11 +216,15 @@ const UtilityRental = () => {
         mode="date"
         onConfirm={(selectedDate) => {
           setIsToDateVisible(false);
+          if( selectedDate > fromDate ){
           setToDate(selectedDate);
+          }
         }}
         onCancel={() => setIsToDateVisible(false)}
       />
-    </>
+        </>
+        </View>
+      </View>
         {/* <DatePicker date={availableTo} onDateChange={setAvailableTo} mode="date" /> */}
 
         <Text style={styles.label}>Price:</Text>
@@ -209,7 +251,7 @@ const UtilityRental = () => {
 
         {/* Add Utility Button */}
         <TouchableOpacity onPress={addUtility} style={[styles.button, styles.addButton]}>
-          <Text style={styles.buttonText}>Add Utility</Text>
+          <Text style={styles.buttonText}>Add Commerce</Text>
         </TouchableOpacity>
       </View>
 
@@ -217,14 +259,15 @@ const UtilityRental = () => {
       <FlatList
         data={utilities}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <View style={[styles.utilityItem,{flex:1, flexDirection: "row"}]}>
             <View >
+              <Text>Item  - {index+1}</Text>
               <Text style={styles.utilityText}>📦 {item.itemName}</Text>
               <Text>From: {item.availableFrom.toDateString()}</Text>
               <Text>To: {item.availableTo.toDateString()}</Text>
               <Text>Price: ${item.price}</Text>
-              <Text>Store: {item.storeLink}</Text>
+              <Text>Store Link: {item.storeLink}</Text>
             </View>
             <Image
               style={styles.images}
@@ -247,13 +290,13 @@ const UtilityRental = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 20, backgroundColor: "#f9f9f9" },
+  container: { padding: 20, backgroundColor: Colors.secondary },
   header: { fontSize: 22, fontWeight: "bold", marginBottom: 10, textAlign: "center" },
   label: { fontSize: 14, fontWeight: "bold", marginTop: 10 },
   input: { borderWidth: 1, borderRadius: 5, padding: 8, backgroundColor: "white", marginBottom: 10 },
   card: { borderWidth: 1, borderRadius: 10, padding: 15, backgroundColor: "white", marginBottom: 20 },
   cardTitle: { fontSize: 16, fontWeight: "bold", marginBottom: 10 },
-  button: { backgroundColor: "#007bff", padding: 10, borderRadius: 5, marginTop: 10 },
+  button: { backgroundColor: Colors.primary, padding: 10, borderRadius: 5, marginTop: 10 },
   addButton: { backgroundColor: "green" },
   submitButton: { backgroundColor: "blue", marginBottom: 20 },
   buttonText: { color: "white", textAlign: "center", fontWeight: "bold" },
@@ -266,6 +309,32 @@ const styles = StyleSheet.create({
   },
   utilityItem: { padding: 10, borderBottomWidth: 1, backgroundColor: Colors.secondary, borderRadius: 10, marginBottom: 5 },
   utilityText: { fontSize: 16, fontWeight: "bold" },
+  textPlaceholder: {
+    color: "#aaa",
+  },
+  textSelected: {
+    color: "#000",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: "80%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 10,
+  },
+  item: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+  },
+  itemText: {
+    fontSize: 16,
+  },
 });
 
 export default UtilityRental;

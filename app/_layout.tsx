@@ -17,6 +17,10 @@ import HomeRentalForm from '@/components/ui/HomeRentalForm';
 import OtherRentalForm from '@/components/ui/OtherRentalForm';
 import SignUpPage from '@/components/ui/SignUpPage';
 import UtilityRental from '@/components/ui/UtilityForm';
+import PropertyDetails from '@/components/ui/DetailPage';
+import TabTwoScreen from './(tabs)/explore';
+import TabThreeScreen from './(tabs)/explore copy';
+import ProfileScreen from '@/components/ui/ProfilePage';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashPage.preventAutoHideAsync();
@@ -76,6 +80,16 @@ export default function RootLayout() {
 
         {/* <Stack.Screen name="Signup" component={SignupScreen} /> */}
         <Stack.Screen name="Home" component={HomeScreen}  options={{ headerShown: false }}          />
+        <Stack.Screen name="Home2" component={TabTwoScreen}  options={{ headerShown: false }}          />
+        <Stack.Screen name="Home3" component={TabThreeScreen}  options={{ headerShown: false }}          />
+        <Stack.Screen name="Profile" component={ProfileScreen}  options={{
+            headerTitle: "Profile",
+            headerStyle: { backgroundColor: Colors.primary },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }}          />
+
+
         <Stack.Screen name="HomeRental" component={HomeRentalForm} options={{
             headerTitle: "Create Home Rental",
             headerStyle: { backgroundColor: Colors.primary },
@@ -89,7 +103,13 @@ export default function RootLayout() {
             headerTitleStyle: { fontWeight: "bold" },
           }} />
           <Stack.Screen name="UtilityRental" component={UtilityRental} options={{
-            headerTitle: "Utility Listing",
+            headerTitle: "Commerce Listing",
+            headerStyle: { backgroundColor: Colors.primary },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }} />
+          <Stack.Screen name="DetailPage" component={PropertyDetails}  options={{
+            headerTitle: "Rental Detail Page",
             headerStyle: { backgroundColor: Colors.primary },
             headerTintColor: "#fff",
             headerTitleStyle: { fontWeight: "bold" },
