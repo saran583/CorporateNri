@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import React, { useState } from "react";
 import {
   View,
@@ -86,6 +87,14 @@ const ProfilePage = () => {
         {renderInput("Preferred Pincode", "preferredPincode", "Enter pincode", "numeric")}
 
         {/** Submit Button */}
+        <TouchableOpacity style={[styles.button, styles.submitButton]} >
+          <Text style={styles.buttonText}>View History</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.button, styles.submitButton]} >
+          <Text style={styles.buttonText}>Change Password</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity style={[styles.button, styles.submitButton]} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Save Profile</Text>
         </TouchableOpacity>
@@ -124,7 +133,7 @@ const styles = {
   },
   errorText: { color: "red", fontSize: 12, marginBottom: 10 },
   button: { backgroundColor: "#007bff", padding: 12, borderRadius: 5, marginTop: 10 },
-  submitButton: { backgroundColor: "green", marginBottom: 20 },
+  submitButton: { backgroundColor: Colors.primary, marginBottom: 20 },
   buttonText: { color: "white", textAlign: "center", fontWeight: "bold" },
 };
 
