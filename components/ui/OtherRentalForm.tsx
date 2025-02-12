@@ -9,7 +9,7 @@ import { View, Text, TextInput, StyleSheet, Image, ScrollView, TouchableOpacity,
 const OtherRentalForm = () => {
     const [form, setForm] = useState({
       title: "",
-      subject: "",
+      details: "",
       keyDates: new Date(),
       additionalDetails: "",
       category: ""
@@ -87,14 +87,7 @@ const OtherRentalForm = () => {
       </TouchableOpacity>
       {errors.category && <Text style={styles.errorText}>{errors.category}</Text>}
 
-      <Text style={styles.label}>Subject</Text>
-      <TextInput
-        style={[styles.input, errors.subject && styles.errorInput]}
-        value={form.subject}
-        onChangeText={(text) => handleInputChange("subject", text)}
-        placeholder="Enter Subject"
-      />
-      {errors.subject && <Text style={styles.errorText}>{errors.subject}</Text>}
+      
 
 
       <Text style={styles.label}>Key Date</Text>
@@ -150,12 +143,22 @@ const OtherRentalForm = () => {
         </View>
       </Modal>
 
-      <Text style={styles.label}>Additional Details</Text>
+      <Text style={styles.label}>Details</Text>
+      <TextInput
+        style={[[styles.input, styles.textarea], errors.details && styles.errorInput]}
+        value={form.details}
+        onChangeText={(text) => handleInputChange("subject", text)}
+        placeholder="Enter Details"
+        multiline
+      />
+      {errors.details && <Text style={styles.errorText}>{errors.details}</Text>}
+
+      <Text style={styles.label}>Additional Information</Text>
       <TextInput
         style={[styles.input, styles.textarea]}
         value={form.additionalDetails}
         onChangeText={(text) => handleInputChange("additionalDetails", text)}
-        placeholder="Enter additional details"
+        placeholder="Enter additional information"
         multiline
       />
 

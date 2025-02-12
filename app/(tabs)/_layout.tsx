@@ -78,7 +78,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Today',
+          title: 'Latest',
           tabBarIcon: ({ color }) => <Icon name="whatshot" size={25} color={color} />,
         }}
       />
@@ -94,6 +94,7 @@ export default function TabLayout() {
     actions={actions}
     color={Colors.primary}
     distanceToEdge={{vertical:60, horizontal: 20}}
+    actionsPaddingTopBottom={2}
     onPressItem={name => {
       navigation.navigate(name=='rental'?"HomeRental":name=='other'?"OtherRental":"UtilityRental")
       console.log(`selected button: ${name}`);

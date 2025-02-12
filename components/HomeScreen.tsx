@@ -17,24 +17,25 @@ export default function HomeScreen ({ navigation }) {
               backgroundColor: '#021138'
             },
             headerLeft:(props) =>{
-              return <ProfileIcon name="John Doe" size={35} backgroundColor="#4CAF50" textColor="#FFFFFF" />
+               return <ProfileIcon name="John Doe" size={35} backgroundColor="#4CAF50" textColor="#FFFFFF" />
             },
+            gestureEnabled: false,
             headerRight:()=>{
               return <View style={styles.headerIconsContainer}>
               {/* Notification Icon */}
-              <TouchableOpacity onPress={() => console.log('Notifications clicked')}>
-                <View style={styles.notificationContainer}>
-                  <Icon name="notifications" size={24} color="#fff" />
-                    <View style={styles.notificationBadge}>
+              <TouchableOpacity style={styles.notificationContainer}onPress={() => {navigation.navigate("Search")}} >
+                {/* <View  */}
+                  <Icon name="search" size={24} color="#fff" />
+                    {/* <View style={styles.notificationBadge}>
                       <Text style={styles.badgeText}>10</Text>
-                    </View>
-                </View>
+                    </View> */}
+                {/* </View> */}
               </TouchableOpacity>
 
               {/* Message Icon */}
               <TouchableOpacity onPress={() => console.log('Messages clicked')}>
                 <View style={styles.messageContainer}>
-                  <Icon name="message" size={25} color="#fff" />
+                  <Icon name="notifications" size={25} color="#fff" />
                     <View style={styles.messageBadge}>
                       <Text style={styles.badgeText}>5</Text>
                     </View>

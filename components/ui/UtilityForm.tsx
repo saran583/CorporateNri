@@ -21,6 +21,7 @@ const UtilityRental = () => {
   const [type, setType] = useState("");
   const [location, setLocation] = useState("");
   const [pinCode, setPinCode] = useState("")
+  const [additionalInfo, setAdditonalInfo] = useState("")
 
   const [utilities, setUtilities] = useState([]);
   const [itemName, setItemName] = useState("");
@@ -29,13 +30,16 @@ const UtilityRental = () => {
   const [price, setPrice] = useState("");
   const [storeLink, setStoreLink] = useState("");
   const [pictures, setPictures] = useState([]);
+  const [available, setAvailable] = useState("Available")
 
   const [fromDate, setFromDate] = useState(new Date());
   const [isFromDateVisible, setIsFromDateVisible] = useState(false);
   const [toDate, setToDate] = useState(new Date());
   const [isToDateVisible, setIsToDateVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [availabilityModalVisible, setAvailabilityModalVisible] = useState(false);
   const categories = ['house','car', 'baby', 'kitchen', 'move out', 'others']
+  const availablityOptions = ['Available', 'Sold', 'Hold']
   
   
 
@@ -71,8 +75,7 @@ const UtilityRental = () => {
 
     const newUtility = {
       itemName,
-      availableFrom,
-      availableTo,
+     available,
       price,
       storeLink,
       pictures,
@@ -83,8 +86,7 @@ const UtilityRental = () => {
 
     // Reset form fields
     setItemName("");
-    setAvailableFrom(new Date());
-    setAvailableTo(new Date());
+    setAvailable("Available")
     setPrice("");
     setStoreLink("");
     setPictures([]);
@@ -104,7 +106,11 @@ const UtilityRental = () => {
 
     const rentalData = {
       type,
+      pinCode,
       location,
+      availableFrom,
+      availableTo,
+      additionalInfo,
       utilities,
     };
 
@@ -116,8 +122,7 @@ const UtilityRental = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.header}>Commerce Rental</Text>
-
+    
       {/* Title */}
       {/* <Text style={styles.label}>Title:</Text>
       <TextInput value={title} onChangeText={setTitle} style={styles.input} /> */}
@@ -153,21 +158,16 @@ const UtilityRental = () => {
                     </View>
                   </Modal>
 
+      {/* Location */}
+      <Text style={styles.label}>Location:</Text>
+      <TextInput value={location} onChangeText={setLocation} style={styles.input} />
+
       <Text style={styles.label}>Pin Code:</Text>
       <TextInput value={pinCode} keyboardType="numeric" onChangeText={setPinCode} style={styles.input} />
 
-      {/* Location */}
-      <Text style={styles.label}>Location Link:</Text>
-      <TextInput value={location} onChangeText={setLocation} style={styles.input} />
+      
 
-      {/* Utility Item Card */}
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Add Commerce Item  {utilities.length + 1}</Text>
-
-        <Text style={styles.label}>Item Name:</Text>
-        <TextInput value={itemName} placeholder="Enter Item Name" onChangeText={setItemName} style={styles.input} />
-
-      <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between'}}>
+      <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', marginBottom: 20}}>
         <View>
         <Text style={styles.label}>Available From:</Text>
         <>
@@ -176,7 +176,7 @@ const UtilityRental = () => {
         style={{
           padding: 10,
           borderWidth: 1,
-          borderColor: '#ccc',
+          backgroundColor: '#fff',
           borderRadius: 5,
           width: 150,
         }}
@@ -204,7 +204,7 @@ const UtilityRental = () => {
         style={{
           padding: 10,
           borderWidth: 1,
-          borderColor: '#ccc',
+          backgroundColor: "#fff",
           borderRadius: 5,
           width: 150,
         }}
@@ -225,7 +225,44 @@ const UtilityRental = () => {
         </>
         </View>
       </View>
-        {/* <DatePicker date={availableTo} onDateChange={setAvailableTo} mode="date" /> */}
+
+      {/* Utility Item Card */}
+      <View style={styles.card}>
+        <Text style={styles.cardTitle}>Add Commerce Item  {utilities.length + 1}</Text>
+
+        <Text style={styles.label}>Item Name:</Text>
+        <TextInput value={itemName} placeholder="Enter Item Name" onChangeText={setItemName} style={styles.input} />
+
+      
+        <Text style={styles.label}>Available:</Text>
+      <TouchableOpacity style={styles.input} onPress={() => setAvailabilityModalVisible(true)}>
+              <Text style={available ? styles.textSelected : styles.textPlaceholder}>
+                {available || ""}
+              </Text>
+            </TouchableOpacity>
+
+
+            <Modal visible={availabilityModalVisible} transparent animationType="slide">
+                    <View style={styles.modalContainer}>
+                      <View style={styles.modalContent}>
+                        <FlatList
+                          data={availablityOptions}
+                          keyExtractor={(item) => item}
+                          renderItem={({ item }) => (
+                            <TouchableOpacity
+                              style={styles.item}
+                              onPress={() => {
+                               setAvailable(item)
+                                setAvailabilityModalVisible(false);
+                              }}
+                            >
+                              <Text style={styles.itemText}>{item}</Text>
+                            </TouchableOpacity>
+                          )}
+                        />
+                      </View>
+                    </View>
+                  </Modal>
 
         <Text style={styles.label}>Price:</Text>
         <TextInput value={price} onChangeText={setPrice} keyboardType="numeric" style={styles.input} />
@@ -255,8 +292,14 @@ const UtilityRental = () => {
         </TouchableOpacity>
       </View>
 
-      {/* List of Added Utilities */}
-      <FlatList
+      
+
+        <Text style={styles.label}>Additional Details:</Text>
+        <TextInput value={additionalInfo} placeholder="Enter Additional Details" onChangeText={setAdditonalInfo} style={[styles.input,styles.textarea]}  multiline/>
+
+
+{/* List of Added Utilities */}
+<FlatList
         data={utilities}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
@@ -264,8 +307,7 @@ const UtilityRental = () => {
             <View >
               <Text>Item  - {index+1}</Text>
               <Text style={styles.utilityText}>📦 {item.itemName}</Text>
-              <Text>From: {item.availableFrom.toDateString()}</Text>
-              <Text>To: {item.availableTo.toDateString()}</Text>
+              <Text>Availabilty: {item.available}</Text>
               <Text>Price: ${item.price}</Text>
               <Text>Store Link: {item.storeLink}</Text>
             </View>
@@ -281,6 +323,7 @@ const UtilityRental = () => {
         )}
       />
 
+
       {/* Submit Button */}
       <TouchableOpacity onPress={handleSubmit} style={[styles.button, styles.submitButton]}>
         <Text style={styles.buttonText}>Submit</Text>
@@ -290,11 +333,11 @@ const UtilityRental = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 20, backgroundColor: Colors.secondary },
+  container: { padding: 20, paddingTop: 5, backgroundColor: Colors.secondary },
   header: { fontSize: 22, fontWeight: "bold", marginBottom: 10, textAlign: "center" },
   label: { fontSize: 14, fontWeight: "bold", marginTop: 10 },
-  input: { borderWidth: 1, borderRadius: 5, padding: 8, backgroundColor: "white", marginBottom: 10 },
-  card: { borderWidth: 1, borderRadius: 10, padding: 15, backgroundColor: "white", marginBottom: 20 },
+  input: { borderWidth: 1, borderRadius: 5, padding: 8, backgroundColor: "white", marginBottom: 5 },
+  card: { borderWidth: 1, borderRadius: 10, padding: 15, backgroundColor: "white", marginBottom: 5 },
   cardTitle: { fontSize: 16, fontWeight: "bold", marginBottom: 10 },
   button: { backgroundColor: Colors.primary, padding: 10, borderRadius: 5, marginTop: 10 },
   addButton: { backgroundColor: "green" },
@@ -334,6 +377,10 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 16,
+  },
+  textarea: {
+    height: 100,
+    textAlignVertical: "top",
   },
 });
 

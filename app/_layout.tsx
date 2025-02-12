@@ -21,6 +21,7 @@ import PropertyDetails from '@/components/ui/DetailPage';
 import TabTwoScreen from './(tabs)/explore';
 import TabThreeScreen from './(tabs)/explore copy';
 import ProfileScreen from '@/components/ui/ProfilePage';
+import SearchComponent from '@/components/ui/SearchScreen';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashPage.preventAutoHideAsync();
@@ -88,6 +89,13 @@ export default function RootLayout() {
             headerTintColor: "#fff",
             headerTitleStyle: { fontWeight: "bold" },
           }}          />
+          <Stack.Screen name="Search" component={SearchComponent}  options={{
+            headerTitle: "Search",
+            headerStyle: { backgroundColor: Colors.primary },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }}          />
+
 
 
         <Stack.Screen name="HomeRental" component={HomeRentalForm} options={{

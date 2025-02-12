@@ -59,7 +59,7 @@ const renderCard = (navigation, title, price, location, features, width=Dimensio
         <View>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.status}>
-        <Text style={{ color: 'green' }}>$ 30000</Text>  |   <Text style={{ color: "blue"}}>Texas, USA</Text>
+        <Text style={{ color: 'green' }}>$ {price}</Text>  |   <Text style={{ color: "blue"}}>Texas, USA</Text>
       </Text>
       </View>
       </View>

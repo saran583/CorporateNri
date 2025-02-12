@@ -1,12 +1,11 @@
-import CardLayout from '@/components/ui/CardLayout';
 import renderCard from '@/components/ui/CardRenderer';
 import { Colors } from '@/constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, ScrollView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+
 
 export default function HomeScreen() {
-
   const data = [
     { id: 1, text: 'Item 1', color: '#FF5733' },
     { id: 2, text: 'Item 2', color: '#33FF57' },
@@ -90,7 +89,9 @@ export default function HomeScreen() {
     </View>
 
     <View style={styles.container}>
-    <Text style={styles.title}>Latest Posts</Text>
+      <TouchableOpacity onPress={()=>navigation.navigate("explore")}>
+    <Text style={styles.title}  >Latest Posts</Text>
+    </TouchableOpacity>
       <FlatList
         data={data}
         renderItem={renderCards}
@@ -118,7 +119,9 @@ export default function HomeScreen() {
     </View>
 
     <View style={styles.container}>
+      <TouchableOpacity onPress={()=>navigation.navigate("explore copy")}>
     <Text style={styles.title}>Featured Posts</Text>
+    </TouchableOpacity>
       <FlatList
         data={data}
         renderItem={renderCards}
