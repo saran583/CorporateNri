@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { FloatingAction } from "react-native-floating-action";
 import { useNavigation } from '@react-navigation/native';
+import ProfileIcon from '@/components/ui/ProfileIcon';
 
 
 export default function TabLayout() {
@@ -49,9 +50,30 @@ export default function TabLayout() {
   ];
 
 
-
   return (
     <>
+    <View style={{height: 90,backgroundColor: Colors.primary, flexDirection:'row', width:'100%', paddingTop:45, paddingHorizontal:15, justifyContent: 'space-between'}}>
+    <View style={{flexDirection:'row'}}>
+    <ProfileIcon name="John Doe" size={35} backgroundColor="#4CAF50" textColor="#FFFFFF" />
+    <Text style={{color:"#fff", fontSize: 22, paddingTop:3, fontWeight: '500'}}>Corporate NRI</Text>
+    </View>
+    <View style={styles.headerIconsContainer}>
+                  {/* Notification Icon */}
+                  <TouchableOpacity style={styles.notificationContainer}onPress={() => {navigation.navigate("Search")}} >
+                      <Icon name="search" size={24} color="#fff" />
+                  </TouchableOpacity>
+    
+                  {/* Message Icon */}
+                  <TouchableOpacity onPress={() => console.log('Messages clicked')}>
+                    <View style={styles.messageContainer}>
+                      <Icon name="notifications" size={25} color="#fff" />
+                        <View style={styles.messageBadge}>
+                          <Text style={styles.badgeText}>5</Text>
+                        </View>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+    </View>
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
@@ -89,6 +111,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) =>  <Icon name="star" size={25} color={color} />,
         }}
       />
+      <Tabs.Screen
+        name="Today"
+        options={{
+          title: 'Today',
+          tabBarIcon: ({ color }) =>  <Icon name="calendar-today" size={25} color={color} />,
+        }}
+      />
     </Tabs>
     <FloatingAction
     actions={actions}
@@ -103,3 +132,72 @@ export default function TabLayout() {
     </>
   );
 }
+
+
+const styles=StyleSheet.create({
+  splashContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4CAF50',
+  },
+  splashText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  homeContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  homeText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  icon: {
+    marginRight: 16,
+  },
+  notificationBadge: {
+    position: 'absolute',
+    top: -8,
+    right: -5,
+    backgroundColor: '#ff3b30',
+    borderRadius: 10,
+    width: 18,
+    height: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  badgeText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  headerIconsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  notificationContainer: {
+    position: 'relative',
+    marginRight: 25,
+  },
+  messageContainer: {
+    position: 'relative',
+    marginRight: 2
+  },
+  messageBadge: {
+    position: 'absolute',
+    top: -10,
+    right: -8,
+    backgroundColor: '#ff3b30',
+    borderRadius: 10,
+    width: 18,
+    height: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+
+})

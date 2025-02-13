@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
   cardTitle: { fontSize: 16, fontWeight: "bold", marginBottom: 10 },
   button: { backgroundColor: Colors.primary, padding: 10, borderRadius: 5, marginTop: 10 },
   addButton: { backgroundColor: "green" },
-  submitButton: { backgroundColor: "blue", marginBottom: 20 },
+  submitButton: { backgroundColor: Colors.primary, marginBottom: 20 },
   buttonText: { color: "white", textAlign: "center", fontWeight: "bold" },
   image: { width: 60, height: 60, margin: 5 },
   images: {

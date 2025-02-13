@@ -16,6 +16,7 @@ export default function HomeScreen ({ navigation }) {
             headerStyle: {
               backgroundColor: '#021138'
             },
+            headerShown:false,
             headerLeft:(props) =>{
                return <ProfileIcon name="John Doe" size={35} backgroundColor="#4CAF50" textColor="#FFFFFF" />
             },

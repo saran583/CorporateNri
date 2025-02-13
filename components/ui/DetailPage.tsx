@@ -189,7 +189,9 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
-    marginTop: 10,
+    marginVertical: 10,
+    width: '50%',
+    marginHorizontal: 'auto'
   },
 });
 
