@@ -44,22 +44,41 @@ const UtilityRental = () => {
   
 
   // Open Image Picker
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      allowsMultipleSelection: true,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setPictures(result.assets);
-    } 
-  };
+    const pickImage = async () => {
+      Alert.alert("Select Image", "Choose an option", [
+        { text: "Camera", onPress: openCamera },
+        { text: "Gallery", onPress: openGallery }
+      ],{cancelable: true});
+    };
+  
+    // Function to open the camera
+    const openCamera = async () => {
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      if (!result.canceled) {
+        setPictures([...pictures, result.assets[0]]);
+      }
+    };
+  
+    // Function to open the gallery
+    const openGallery = async () => {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        allowsMultipleSelection: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      if (!result.canceled) {
+            setPictures(result.assets);
+          }
+    };
 
   // Add a new utility item
   const addUtility = () => {
@@ -339,10 +358,10 @@ const styles = StyleSheet.create({
   input: { borderWidth: 1, borderRadius: 5, padding: 8, backgroundColor: "white", marginBottom: 5 },
   card: { borderWidth: 1, borderRadius: 10, padding: 15, backgroundColor: "white", marginBottom: 5 },
   cardTitle: { fontSize: 16, fontWeight: "bold", marginBottom: 10 },
-  button: { backgroundColor: Colors.primary, padding: 10, borderRadius: 5, marginTop: 10 },
+  button: { backgroundColor: Colors.primary, padding: 5, borderRadius: 5, marginTop: 10 },
   addButton: { backgroundColor: "green" },
   submitButton: { backgroundColor: Colors.primary, marginBottom: 20 },
-  buttonText: { color: "white", textAlign: "center", fontWeight: "bold" },
+  buttonText: { color: "white", textAlign: "center", fontWeight: "bold", fontSize: 18 },
   image: { width: 60, height: 60, margin: 5 },
   images: {
     flex: 1,

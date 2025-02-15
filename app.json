@@ -1,24 +1,24 @@
 {
   "expo": {
-    "name": "RentalsApp",
-    "slug": "RentalsApp",
+    "name": "Corporate NRI",
+    "slug": "CorporateNRI",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/appLogo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "CorporateNRI.RentalsApp",
+      "bundleIdentifier": "CorporateNRI.corporatenri",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "package": "CorporateNRI.RentalsApp",
+      "package": "CorporateNRI.corporatenri",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/appLogo.png",
         "backgroundColor": "#ffffff"
       }
     },
@@ -47,7 +47,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "ea0d7570-8f55-423f-a78e-6b3162dc60ca"
+        "projectId": "cfd8bdda-b4f3-4ef5-9f17-8c28530bcf1b"
       }
     }
   }

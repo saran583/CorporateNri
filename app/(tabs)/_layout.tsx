@@ -15,7 +15,7 @@ import ProfileIcon from '@/components/ui/ProfileIcon';
 
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  // const colorScheme = useColorScheme();
   const navigation = useNavigation();
 
 
@@ -55,7 +55,7 @@ export default function TabLayout() {
     <View style={{height: 90,backgroundColor: Colors.primary, flexDirection:'row', width:'100%', paddingTop:45, paddingHorizontal:15, justifyContent: 'space-between'}}>
     <View style={{flexDirection:'row'}}>
     <ProfileIcon name="John Doe" size={35} backgroundColor="#4CAF50" textColor="#FFFFFF" />
-    <Text style={{color:"#fff", fontSize: 22, paddingTop:3, fontWeight: '500'}}>Corporate NRI</Text>
+    <Text style={{color:"#fff", fontSize: 22, paddingTop:3, fontWeight: '500'}} numberOfLines={1}>Corporate NRI</Text>
     </View>
     <View style={styles.headerIconsContainer}>
                   {/* Notification Icon */}
@@ -64,9 +64,9 @@ export default function TabLayout() {
                   </TouchableOpacity>
     
                   {/* Message Icon */}
-                  <TouchableOpacity onPress={() => console.log('Messages clicked')}>
+                  <TouchableOpacity onPress={() => {navigation.navigate("MessagesPage")}}>
                     <View style={styles.messageContainer}>
-                      <Icon name="notifications" size={25} color="#fff" />
+                      <Icon name="message" size={25} color="#fff" />
                         <View style={styles.messageBadge}>
                           <Text style={styles.badgeText}>5</Text>
                         </View>
@@ -75,11 +75,17 @@ export default function TabLayout() {
                 </View>
     </View>
     <Tabs
+    // Colors[colorScheme ?? 'light'].tint
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors.dark.tint,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
+        tabBarLabelStyle: {
+          fontSize: 10, // Adjust size
+          width: "auto", // Ensure width is flexible
+          flexWrap: "nowrap", // Allow wrapping if necessary
+        },
         tabBarStyle: Platform.select({
           ios: {
             // Use a transparent background on iOS to show the blur effect

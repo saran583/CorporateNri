@@ -22,6 +22,8 @@ import TabTwoScreen from './(tabs)/explore';
 import TabThreeScreen from './(tabs)/explore copy';
 import ProfileScreen from '@/components/ui/ProfilePage';
 import SearchComponent from '@/components/ui/SearchScreen';
+import MessagesScreen from '@/components/ui/MessagesComponent';
+import MessagesPage from '@/components/ui/MessagesPage';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashPage.preventAutoHideAsync();
@@ -81,6 +83,18 @@ export default function RootLayout() {
 
         {/* <Stack.Screen name="Signup" component={SignupScreen} /> */}
         <Stack.Screen name="Home" component={HomeScreen}  options={{ headerShown: false }}          />
+        <Stack.Screen name="Messages" component={MessagesScreen}  options={{
+            headerTitle: "Messages",
+            headerStyle: { backgroundColor: Colors.primary },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }}          />
+          <Stack.Screen name="MessagesPage" component={MessagesPage}  options={{
+            headerTitle: "Messages",
+            headerStyle: { backgroundColor: Colors.primary },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          }}          />
         <Stack.Screen name="Home2" component={TabTwoScreen}  options={{ headerShown: false }}          />
         <Stack.Screen name="Home3" component={TabThreeScreen}  options={{ headerShown: false }}          />
         <Stack.Screen name="Profile" component={ProfileScreen}  options={{

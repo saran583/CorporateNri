@@ -495,7 +495,8 @@ const HomeRentalForm = () => {
     },
     submitButton: {
       backgroundColor: Colors.primary,
-      padding: 16,
+      padding: 5,
+      height: 39,
       borderRadius: 8,
       alignItems: "center",
       marginTop: 10,
@@ -566,9 +567,9 @@ const HomeRentalForm = () => {
         color: "red",
         fontSize: 16,
       },
-      button: { backgroundColor: Colors.primary, padding: 10, borderRadius: 5, marginTop: 10 },
+      button: { backgroundColor: Colors.primary, padding: 5, borderRadius: 5, marginTop: 10 },
   addButton: { backgroundColor: "green" },
-  buttonText: { color: "white", textAlign: "center", fontWeight: "bold" },
+  buttonText: { color: "white", textAlign: "center", fontWeight: "bold", fontSize: 18 },
   image: { width: 60, height: 60, margin: 5 },
   images: {
     flex: 1,

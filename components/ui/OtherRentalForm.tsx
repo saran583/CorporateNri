@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 
-import { View, Text, TextInput, StyleSheet, Image, ScrollView, TouchableOpacity, CheckBox, Switch, Modal, FlatList } from "react-native";
+import { View, Text, TextInput, StyleSheet, Image, ScrollView, TouchableOpacity, CheckBox, Switch, Modal, FlatList, Alert  } from "react-native";
 
 const OtherRentalForm = () => {
     const [form, setForm] = useState({
@@ -19,27 +19,65 @@ const OtherRentalForm = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [pictures, setPictures] = useState([]);
     const [isFromDateVisible, setIsFromDateVisible] = useState(false);
+
+    const [image, setImage] = useState(null);
     
     const categories = ["Travel Companion", "Cars", "Medical Support", "Community", "Vouchers or Offers", "Others"];
     const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
   
 
+  // const pickImage = async () => {
+  //   let result = await ImagePicker.launchCameraAsync({
+  //     mediaTypes: ['images'],
+  //     allowsMultipleSelection: true,
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+      
+  //   });
+
+  //   console.log(result);
+
+  //   if (!result.canceled) {
+  //     setPictures(result.assets);
+  //   } 
+  // };
+
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      allowsMultipleSelection: true,
+    Alert.alert("Select Image", "Choose an option", [
+      { text: "Camera", onPress: openCamera },
+      { text: "Gallery", onPress: openGallery }
+    ],{cancelable: true});
+  };
+
+  // Function to open the camera
+  const openCamera = async () => {
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      
     });
 
-    console.log(result);
+    if (!result.canceled) {
+      setPictures([...pictures, result.assets[0]]);
+    }
+  };
+
+  // Function to open the gallery
+  const openGallery = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      allowsMultipleSelection: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
     if (!result.canceled) {
-      setPictures(result.assets);
-    } 
+          setPictures(result.assets);
+        }
   };
 
 
@@ -243,10 +281,12 @@ const OtherRentalForm = () => {
     },
     submitButton: {
       backgroundColor: Colors.primary,
-      padding: 16,
+      padding: 5,
       borderRadius: 8,
       alignItems: "center",
       marginTop: 16,
+      height: 39,
+      
     },
     switchContainer: {
         flexDirection: "row",
