@@ -75,11 +75,11 @@ const messagesSent = [
 
 
 
-const MessagesScreen = ({route}) => {
+const MessagesScreen = ({selection}) => {
 
-    const navigation = useNavigation()
-  console.log(route)
-  const selection= route.params.selection
+    // const navigation = useNavigation()
+  console.log(selection)
+  // const selection= route.params.selection
     
 
 

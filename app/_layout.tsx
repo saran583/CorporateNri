@@ -93,12 +93,12 @@ export default function RootLayout() {
 
         {/* <Stack.Screen name="Signup" component={SignupScreen} /> */}
         <Stack.Screen name="Home" component={HomeScreen}  options={{ headerShown: false }}          />
-        <Stack.Screen name="Messages" component={MessagesScreen}  options={{
+        {/* <Stack.Screen name="Messages" component={MessagesScreen}  options={{
             headerTitle: "Messages",
             headerStyle: { backgroundColor: Colors.primary },
             headerTintColor: "#fff",
             headerTitleStyle: { fontWeight: "bold" },
-          }}          />
+          }}          /> */}
           <Stack.Screen name="MessagesPage" component={MessagesPage}  options={{
             headerTitle: "Messages",
             headerStyle: { backgroundColor: Colors.primary },
