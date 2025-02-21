@@ -1,4 +1,4 @@
-package CorporateNRI.RentalsApp
+package CorporateNRI.corporatenri
 
 import android.app.Application
 import android.content.res.Configuration

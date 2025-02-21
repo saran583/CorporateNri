@@ -24,27 +24,65 @@ import ProfileScreen from '@/components/ui/ProfilePage';
 import SearchComponent from '@/components/ui/SearchScreen';
 import MessagesScreen from '@/components/ui/MessagesComponent';
 import MessagesPage from '@/components/ui/MessagesPage';
-
+// import messaging from "@react-native-firebase/messaging"
+// import { Alert } from 'react-native';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashPage.preventAutoHideAsync();
 const Stack = createStackNavigator();
 
 export default function RootLayout() {
+
+  // const requestUserPermission = async () =>{
+  //   const authStatus = await messaging().requestPermission();
+  //   const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  //   if(enabled){
+  //     console.log("Auth", authStatus)
+  //   }
+  // }
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/Quattrocento-Regular.ttf'),
   });
 
   useEffect(() => {
+    // // if(requestUserPermission()){
+    //   messaging().getToken().then((res)=>{
+    //     console.log("toekn",res)
+    //   })
+
+    // // }
+    // messaging().getInitialNotification().then((remoteMessage)=>{
+    //   if(remoteMessage){
+    //     console.log("notification caused app to open", remoteMessage.notification)
+    //   }
+    // })
     if (loaded) {
       SplashPage.hideAsync();
     }
+    // else {
+    //   messaging().onNotificationOpenedApp((remoteMessage)=>{
+    //     console.log(remoteMessage)
+    //   })
+    
+    //   messaging().setBackgroundMessageHandler(async (remoteMessage)=>{
+    //     console.log("background", remoteMessage)
+    //   })
+    
+    //   const unsubscribe = messaging().onMessage(async (remoteMessage)=>{
+    //     Alert.alert("A new FCM message", JSON.stringify(remoteMessage))
+        
+    //   });
+
+    //   return unsubscribe;
+    // }
   }, [loaded]);
 
   if (!loaded) {
     return null;
   }
 
+  
   
   const actions = [
     {

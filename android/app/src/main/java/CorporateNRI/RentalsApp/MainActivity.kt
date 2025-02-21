@@ -1,4 +1,4 @@
-package CorporateNRI.RentalsApp
+package CorporateNRI.corporatenri
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build
