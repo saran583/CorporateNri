@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { Dimensions, Image, StyleSheet } from "react-native";
 import { Text, View } from "react-native";
 
+const { width, height } = Dimensions.get('window');
+
 export default function SplashScreen ({ navigation }) {
     useEffect(() => {
       const timer = setTimeout(() => {
@@ -12,42 +14,45 @@ export default function SplashScreen ({ navigation }) {
     }, [navigation]);
   
     return (
-      <View style={styles.splashContainer}>
-        {/* <Text style={styles.splashText}>Corporate NRI</Text> */}
-        <Image
-        source={require("../assets/images/CNLogo.png")}
-        style={styles.image}
-      />
+      <View style={styles.container}>
+        <Image source={require('../assets/images/appLogo.png')} style={styles.centerImage} />
+
+        <View style={styles.bottomContainer}>
+            <Image source={require('../assets/images/CNLogo.png')} style={styles.bottomImage} />
+            <Text style={styles.bottomText}>Trusted. Connected. Made for you</Text>
+        </View>
       </View>
     );
   };
 
   const styles = StyleSheet.create({
-    splashContainer: {
+    container: {
       flex: 1,
-      justifyContent: 'center',
+      justifyContent: 'center',  // Centers the first image
       alignItems: 'center',
       backgroundColor: Colors.primary,
+
     },
-    splashText: {
-      fontSize: 35,
+    centerImage: {
+      width: 200,  // Adjust as needed
+      height: 200,
+      resizeMode: 'contain',
+    },
+    bottomContainer: {
+      position: 'absolute',
+      bottom: 0,  // Adjust the spacing from the bottom
+      alignItems: 'center',
+    },
+    bottomImage: {
+      width: 300,
+      height: 45,
+      resizeMode: 'contain',
+    },
+    bottomText: {
+      marginTop: 0, // Spacing between image and text
+      fontSize: 14,
       fontWeight: 'bold',
       color: Colors.secondary,
-    },
-    homeContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#FFFFFF',
-    },
-    homeText: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: '#000000',
-    },
-    image: {
-      width: Dimensions.get('window').width * 0.95, // Set image width
-      height: 200, // Set image height
-      resizeMode: 'contain', // Ensures full image is shown
+      marginBottom: 15
     },
   });

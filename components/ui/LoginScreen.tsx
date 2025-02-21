@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 const LoginScreen = ({ navigation }) => {
@@ -42,6 +43,13 @@ const LoginScreen = ({ navigation }) => {
     return isValid;
   };
 
+  const companies = [
+    'G',
+    'Meta',
+    'Microsoft',
+    'Amazon'
+  ];
+
   // Function to handle login API call
   const handleLogin = async () => {
     if (!validateInputs()) return;
@@ -73,8 +81,13 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Corporate NRI</Text>
-      <Text style={styles.subtitle}>Key for all your rentals</Text>
+      <Text style={styles.title}>Welcome to Corporate NRI</Text>
+      <Text style={styles.subtitle}>Trusted. Connected. Made for you</Text>
+      <View style={styles.subtext}>
+        <Text style={{color: Colors.secondary, fontSize: 17}} >Your One-stop solution for NRIs worldwide.</Text>
+        <Text style={{color: Colors.secondary, fontSize: 17}}>Rentals, Car, travel and more!</Text>
+      </View>
+
 
       <View style={styles.form}>
         <Text style={styles.loginTitle}>Login</Text>
@@ -113,6 +126,18 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
+
+      <KeyboardAvoidingView style={styles.companiesGrid}>
+        <Text style={{color: Colors.secondary, width: "100%", textAlign: "center", fontSize: 15}}>Trusted by Employees from</Text>
+            {companies.map((company) => (
+              <View
+                key={company}
+                style={styles.companyTag}
+              >
+                <Text style={styles.companyText}>{company}</Text>
+              </View>
+            ))}
+          </KeyboardAvoidingView>
     </View>
   );
 };
@@ -125,17 +150,24 @@ const styles = StyleSheet.create({
     padding: 20,
     // paddingTop: 25,
     height: '100%',
+    paddingTop: '10%'
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     color: Colors.secondary,
     marginBottom: 5,
+    marginTop: 8
   },
   subtitle: {
     fontSize: 14,
     color:Colors.secondary,
     marginBottom: 20,
+  },
+
+  subtext: {
+    color:Colors.secondary,
+    marginTop: '40%',
   },
   form: {
     backgroundColor: Colors.secondary,
@@ -148,7 +180,8 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
     justifyContent: 'center',
-    margin: "auto"
+    marginTop: "5%",
+    zIndex:9
   },
   loginTitle: {
     fontSize: 22,
@@ -210,6 +243,32 @@ const styles = StyleSheet.create({
   signupButtonText: {
     color: Colors.primary,
     fontWeight: 'bold',
+  },
+  companiesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 16,
+    position: 'absolute',
+    bottom: 0,  // Adjust the spacing from the bottom
+    alignItems: 'center',
+    marginTop: 'auto',
+    zIndex: 0
+  },
+
+  companyTag: {
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 9999,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+  },
+
+  companyText: {
+    color: '#D1D5DB',
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
 

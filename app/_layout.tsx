@@ -82,34 +82,6 @@ export default function RootLayout() {
     return null;
   }
 
-  
-  
-  const actions = [
-    {
-      text: "Accessibility",
-      icon:<IconSymbol size={28} name="house.fill" color="#FFF" />,
-      name: "bt_accessibility",
-      position: 2,
-      color: Colors.primary
-    },
-    {
-      text: "Language",
-      icon:<IconSymbol size={28} name="house.fill" color="#FFF" />,
-      name: "bt_language",
-      position: 1,
-      color: Colors.primary
-    },
-    {
-      text: "Location",
-      icon: <IconSymbol size={28} name="house.fill" color="#FFF" />,
-      name: "bt_room",
-      position: 3,
-      color: Colors.primary,
-      textStyle:{ fontSize: 14}
-    },
-    
-  ];
-
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
 

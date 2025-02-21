@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Image, ScrollView, TouchableOpacity, CheckBox, Switch, Modal, FlatList } from "react-native";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import * as ImagePicker from 'expo-image-picker';
+import { Alert } from "react-native";
 
 
 const HomeRentalForm = () => {
@@ -27,11 +28,16 @@ const HomeRentalForm = () => {
       parking: false,
       foodPreference: "",
       preferredGender: "",
+      salePrice: "",
+      advance: "",
+      duration: "",
+      bathRooms: "",
       pictures: []
     });
   
     const [errors, setErrors] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
+    const [modal1Visible, setModal1Visible] = useState(false);
     const [isFromDateVisible, setIsFromDateVisible] = useState(false);
     const [isPreferredFoodVisible, setIsPreferredFoodVisible] = useState(false);
     const [isPrefferedGenderVisible, setIsPrefferedGenderVisible] = useState(false);
@@ -42,22 +48,40 @@ const HomeRentalForm = () => {
   
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      allowsMultipleSelection: true,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      handleInputChange("pictures",result.assets);
-    } 
-  };
-
+      Alert.alert("Select Image", "Choose an option", [
+        { text: "Camera", onPress: openCamera },
+        { text: "Gallery", onPress: openGallery }
+      ],{cancelable: true});
+    };
+  
+    // Function to open the camera
+    const openCamera = async () => {
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      if (!result.canceled) {
+        handleInputChange("pictures",[...form.pictures, result.assets[0]]);
+      }
+    };
+  
+    // Function to open the gallery
+    const openGallery = async () => {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        allowsMultipleSelection: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      if (!result.canceled) {
+            handleInputChange("pictures",result.assets);
+          }
+    };
 
 
   const handleInputChange = (field, value) => {
@@ -70,13 +94,18 @@ const HomeRentalForm = () => {
 
   const categories = ['Sale', "Rent"];
   const foodCategories = ["Veg", "Non-Veg", "Any"]
-  const GenderCategories = ["Male", "Female", "Other"]
+  const GenderCategories = ["Male", "Female", "Other", "Any"]
+  const durations = ["days","months", "Years"]
 
 
   const handleSubmit = () => {
     const newErrors = {};
+    let nonValidationKeys = ["additionalDetails", "petFriendly", "doYouSmoke"]
+    let rentalKeys = ["monthlyRent", "deposit", "rentalDuration", "duration", "preferredGender", "foodPreference"]
+    let saleKeys = ["salePrice", "advance"]
+    let skipableKeys = [...nonValidationKeys, ...form.category==="Rent"?saleKeys:rentalKeys]
     Object.keys(form).forEach((key) => {
-      if (key !== "additionalDetails" && key !== "petFriendly" && key !== "doYouSmoke" && form[key].toString().trim() === "") {
+      if (skipableKeys.includes(key)==false && form[key].toString().trim() === "") {
         newErrors[key] = "This field is required";
       }
     });
@@ -103,10 +132,10 @@ const HomeRentalForm = () => {
       <View style={styles.rowContainer}>
 
       <View style={styles.rowItem}>
-      <Text style={styles.label}>Category</Text>
+      <Text style={styles.label}>Rental Type</Text>
       <TouchableOpacity style={[styles.input, errors.category && styles.errorInput]} onPress={() => setModalVisible(true)}>
         <Text style={form.category ? styles.textSelected : styles.textPlaceholder}>
-          {form.category || "Select Category"}
+          {form.category || "Select rental Type"}
         </Text>
       </TouchableOpacity>
       {errors.category && <Text style={styles.errorText}>{errors.category}</Text>}
@@ -151,7 +180,7 @@ const HomeRentalForm = () => {
       </View>
     </View>
 
-      <Text style={styles.label}>Location Link</Text>
+      <Text style={styles.label}>Location</Text>
       <TextInput
         style={[styles.input, errors.location && styles.errorInput]}
         value={form.location}
@@ -160,7 +189,7 @@ const HomeRentalForm = () => {
       />
       {errors.location && <Text style={styles.errorText}>{errors.location}</Text>}
 
-      <View style={styles.rowContainer}>
+      {form.category == "Rent"?<><View style={styles.rowContainer}>
         <View style={styles.rowItem}>
           <Text style={styles.label}>Monthly Rent</Text>
           <TextInput
@@ -174,17 +203,101 @@ const HomeRentalForm = () => {
         </View>
 
         <View style={styles.rowItem}>
-          <Text style={styles.label}>Bedrooms</Text>
+          <Text style={styles.label}>Deposit</Text>
           <TextInput
-            style={[styles.input, errors.bedrooms && styles.errorInput]}
-            value={form.bedrooms}
-            onChangeText={(text) => handleInputChange("bedrooms", text)}
-            placeholder="Enter bedrooms"
+            style={[styles.input, errors.deposit && styles.errorInput]}
+            value={form.deposit}
+            onChangeText={(text) => handleInputChange("deposit", text)}
+            placeholder="Enter deposit"
             keyboardType="numeric"
           />
-          {errors.bedrooms && <Text style={styles.errorText}>{errors.bedrooms}</Text>}
+          {errors.deposit && <Text style={styles.errorText}>{errors.deposit}</Text>}
         </View>
+
       </View>
+      <View style={styles.rowContainer}>
+      <View style={styles.rowItem}>
+          <Text style={styles.label}>Rental Duration</Text>
+          <TextInput
+            style={[styles.input, errors.rentalDuration && styles.errorInput]}
+            value={form.rentalDuration}
+            onChangeText={(text) => handleInputChange("rentalDuration", text)}
+            placeholder="Enter rental Duration"
+            keyboardType="numeric"
+          />
+          {errors.rentalDuration && <Text style={styles.errorText}>{errors.rentalDuration}</Text>}
+        </View>
+
+        <View style={styles.rowItem}>
+          <Text style={styles.label}>    </Text>
+        <TouchableOpacity style={[styles.input, errors.duration && styles.errorInput]} onPress={() => setModal1Visible(true)}>
+        <Text style={form.duration ? styles.textSelected : styles.textPlaceholder}>
+          {form.duration || "Select Duration period"}
+        </Text>
+      </TouchableOpacity>
+      {errors.duration && <Text style={styles.errorText}>{errors.duration}</Text>}
+      </View>
+
+      {/* Modal for Dropdown */}
+      <Modal visible={modal1Visible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <FlatList
+              data={durations}
+              keyExtractor={(item) => item}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.item}
+                  onPress={() => {
+                    handleInputChange("duration", item)
+                    setModal1Visible(false);
+                  }}
+                >
+                  <Text style={styles.itemText}>{item}</Text>
+                </TouchableOpacity>
+              )}
+            />
+            <TouchableOpacity onPress={() => setModal1Visible(false)} style={styles.closeButton}>
+              <Text style={styles.closeButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+          
+        </View>
+
+        {/* </View> */}
+        </>
+
+      
+
+      :<View style={styles.rowContainer}>
+        <View style={styles.rowItem}>
+          <Text style={styles.label}>Sale Price</Text>
+          <TextInput
+            style={[styles.input, errors.salePrice && styles.errorInput]}
+            value={form.salePrice}
+            onChangeText={(text) => handleInputChange("salePrice", text)}
+            placeholder="Enter price"
+            keyboardType="numeric"
+          />
+          {errors.salePrice && <Text style={styles.errorText}>{errors.salePrice}</Text>}
+        </View>
+
+        <View style={styles.rowItem}>
+          <Text style={styles.label}>Advance</Text>
+          <TextInput
+            style={[styles.input, errors.advance && styles.errorInput]}
+            value={form.advance}
+            onChangeText={(text) => handleInputChange("advance", text)}
+            placeholder="Enter advance"
+            keyboardType="numeric"
+          />
+          {errors.advance && <Text style={styles.errorText}>{errors.advance}</Text>}
+        </View>
+      </View>}
+
+      
 
       <View style={styles.rowContainer}>
         <View style={styles.rowItem}>
@@ -215,19 +328,32 @@ const HomeRentalForm = () => {
         </View>
 
         <View style={styles.rowItem}>
-          <Text style={styles.label}>Rental Duration</Text>
+          <Text style={styles.label}>Bedrooms</Text>
           <TextInput
-            style={[styles.input, errors.rentalDuration && styles.errorInput]}
-            value={form.rentalDuration}
-            onChangeText={(text) => handleInputChange("rentalDuration", text)}
-            placeholder="Enter rental Duration"
+            style={[styles.input, errors.bedrooms && styles.errorInput]}
+            value={form.bedrooms}
+            onChangeText={(text) => handleInputChange("bedrooms", text)}
+            placeholder="Enter bedrooms"
             keyboardType="numeric"
           />
-          {errors.rentalDuration && <Text style={styles.errorText}>{errors.rentalDuration}</Text>}
+          {errors.bedrooms && <Text style={styles.errorText}>{errors.bedrooms}</Text>}
         </View>
       </View>
 
       <View style={styles.rowContainer}>
+
+      <View style={styles.rowItem}>
+          <Text style={styles.label}>BathRooms</Text>
+          <TextInput
+            style={[styles.input, errors.bathRooms && styles.errorInput]}
+            value={form.bathRooms}
+            onChangeText={(text) => handleInputChange("bathRooms", text)}
+            placeholder="Enter bathRooms"
+            keyboardType="numeric"
+          />
+          {errors.bathRooms && <Text style={styles.errorText}>{errors.bathRooms}</Text>}
+        </View>
+
         <View style={styles.rowItem}>
           <Text style={styles.label}>Square Feet</Text>
           <TextInput
@@ -240,31 +366,13 @@ const HomeRentalForm = () => {
           {errors.squareFeet && <Text style={styles.errorText}>{errors.squareFeet}</Text>}
         </View>
 
-        <View style={styles.rowItem}>
-          <Text style={styles.label}>Deposit</Text>
-          <TextInput
-            style={[styles.input, errors.deposit && styles.errorInput]}
-            value={form.deposit}
-            onChangeText={(text) => handleInputChange("deposit", text)}
-            placeholder="Enter deposit"
-            keyboardType="numeric"
-          />
-          {errors.deposit && <Text style={styles.errorText}>{errors.deposit}</Text>}
-        </View>
+        
       </View>
 
-      <View style={styles.rowContainer}>
-        <View style={styles.rowItem}>
-          <Text style={styles.label}>Rental Type</Text>
-          <TextInput
-            style={[styles.input, errors.rentalType && styles.errorInput]}
-            value={form.rentalType}
-            onChangeText={(text) => handleInputChange("rentalType", text)}
-            placeholder="Enter Rental Type"
-          />
-          {errors.rentalType && <Text style={styles.errorText}>{errors.rentalType}</Text>}
-        </View>
 
+      
+
+      <View style={styles.rowContainer}>
         <View style={styles.rowItem}>
           <Text style={styles.label}>NearBy Groceries</Text>
           <TextInput
@@ -275,9 +383,7 @@ const HomeRentalForm = () => {
           />
           {errors.nearByGroceries && <Text style={styles.errorText}>{errors.nearByGroceries}</Text>}
         </View>
-      </View>
 
-      <View style={styles.rowContainer}>
         <View style={styles.rowItem}>
           <Text style={styles.label}>Bus Connectivity</Text>
           <TextInput
@@ -288,8 +394,12 @@ const HomeRentalForm = () => {
           />
           {errors.busConnectivity && <Text style={styles.errorText}>{errors.busConnectivity}</Text>}
         </View>
+      </View>
 
-        <View style={{...styles.rowItem, marginTop: 25, marginBottom: -10}}>
+      <View style={styles.rowContainer}>
+        
+
+        <View style={{...styles.rowItem, marginBottom: -10}}>
           <View style={styles.switchContainer}>
             <Text style={styles.switchLabel}>Parking?</Text>
             <Switch
@@ -298,10 +408,7 @@ const HomeRentalForm = () => {
             />
           </View>
         </View>
-      </View>
 
-
-      <View style={styles.rowContainer}>
         <View style={styles.rowItem}>
           <View style={styles.switchContainer}>
             <Text style={styles.switchLabel}>Pet Friendly?</Text>
@@ -311,24 +418,29 @@ const HomeRentalForm = () => {
             />
           </View>
         </View>
+      </View>
+
+
+      {/* <View style={styles.rowContainer}> */}
+        
 
         <View style={styles.rowItem}>
       <View style={styles.switchContainer}>
-        <Text style={styles.switchLabel}>Do you Smoke?</Text>
+        <Text style={styles.switchLabel}>Smoking Allowed?</Text>
         <Switch
           value={form.doYouSmoke}
           onValueChange={(value) => handleInputChange("doYouSmoke", value)}
         />
       </View>
       </View>
-      </View>
+      {/* </View> */}
 
-      <View style={styles.rowContainer}>
+      {form.category == "Rent"&&<View style={styles.rowContainer}>
 
       <View style={styles.rowItem}>
       <Text style={styles.label}>Food Preference</Text>
       <TouchableOpacity style={[styles.input, errors.foodPreference && styles.errorInput]} onPress={() => setIsPreferredFoodVisible(true)}>
-        <Text style={form.category ? styles.textSelected : styles.textPlaceholder}>
+        <Text style={form.foodPreference ? styles.textSelected : styles.textPlaceholder}>
           {form.foodPreference || "Select preference"}
         </Text>
       </TouchableOpacity>
@@ -391,7 +503,7 @@ const HomeRentalForm = () => {
           </View>
         </View>
       </Modal>
-    </View>
+    </View>}
 
       <Text style={styles.label}>Amenties</Text>
       <TextInput
