@@ -290,10 +290,12 @@ const UtilityRental = () => {
         <TextInput value={storeLink} onChangeText={setStoreLink} style={styles.input} />
 
         {/* Image Picker */}
-        <Text style={styles.label}>Upload Pictures:</Text>
+        <View style={{flex:1, flexDirection: "row"}}>
+        <Text style={{...styles.label, paddingTop:8, marginRight: 10}}>Upload Pictures:</Text>
         <TouchableOpacity onPress={pickImage} style={styles.button}>
           <Text style={styles.buttonText}>Choose Images</Text>
         </TouchableOpacity>
+        </View>
 
         {/* Display Selected Images */}
         <FlatList
@@ -359,8 +361,8 @@ const styles = StyleSheet.create({
   card: { borderWidth: 1, borderRadius: 10, padding: 15, backgroundColor: "white", marginBottom: 5 },
   cardTitle: { fontSize: 16, fontWeight: "bold", marginBottom: 10 },
   button: { backgroundColor: Colors.primary, padding: 5, borderRadius: 5, marginTop: 10 },
-  addButton: { backgroundColor: "green" },
-  submitButton: { backgroundColor: Colors.primary, marginBottom: 20 },
+  addButton: { backgroundColor: "green", width:'50%', marginHorizontal: 'auto' },
+  submitButton: { backgroundColor: Colors.primary, marginBottom: 20, width: '50%', marginHorizontal: 'auto', height: 39 },
   buttonText: { color: "white", textAlign: "center", fontWeight: "bold", fontSize: 18 },
   image: { width: 60, height: 60, margin: 5 },
   images: {

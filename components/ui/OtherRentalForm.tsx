@@ -200,11 +200,12 @@ const OtherRentalForm = () => {
         multiline
       />
 
-      <Text style={styles.label}>Upload Pictures:</Text>
-        <TouchableOpacity onPress={pickImage} style={styles.button}>
+      <View style={{flex:1, flexDirection: "row"}}>
+        <Text style={{...styles.label, paddingTop:5, marginBottom: 0}}>Upload Pictures:</Text>
+        <TouchableOpacity onPress={pickImage} style={{...styles.button, height: 40, marginTop:0, marginLeft:10}}>
           <Text style={styles.buttonText}>Choose Images</Text>
         </TouchableOpacity>
-
+      </View>
         {/* Display Selected Images */}
         <FlatList
           horizontal
@@ -286,6 +287,8 @@ const OtherRentalForm = () => {
       alignItems: "center",
       marginTop: 16,
       height: 39,
+      width: "50%",
+      marginHorizontal: "auto"
       
     },
     switchContainer: {
@@ -354,10 +357,10 @@ const OtherRentalForm = () => {
         color: "red",
         fontSize: 16,
       },
-      button: { backgroundColor: Colors.primary, padding: 10, borderRadius: 5, marginTop: 10 },
+      button: { backgroundColor: Colors.primary, padding: 10, borderRadius: 5, marginTop: 10, width: "50%" },
   addButton: { backgroundColor: "green" },
   buttonText: { color: "white", textAlign: "center", fontWeight: "bold" },
-  image: { width: 60, height: 60, margin: 5 },
+  image: { width: 60, height: 60, marginHorizontal: 5 },
   images: {
     flex: 1,
     width: 60,

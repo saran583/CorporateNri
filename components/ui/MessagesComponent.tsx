@@ -77,7 +77,7 @@ const messagesSent = [
 
 const MessagesScreen = ({selection}) => {
 
-    // const navigation = useNavigation()
+    const navigation = useNavigation()
   console.log(selection)
   // const selection= route.params.selection
     

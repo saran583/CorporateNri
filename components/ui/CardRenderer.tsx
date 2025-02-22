@@ -108,6 +108,7 @@ const renderCard = (navigation, title, price, location, features, width=Dimensio
       shadowRadius: 4,
       elevation: 3,
       margin: 10,
+      marginVertical: 5
       // width:width
     },
     content: {

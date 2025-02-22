@@ -41,12 +41,13 @@ import MessagesScreen from "./MessagesComponent";
           {/* Tabs */}
           <View style={styles.tabContainer}>
           <TouchableOpacity style={styles.tab} onPress={() => handleTabPress(0)}>
-              <Text style={[styles.tabText, activeTab === 0 && styles.activeTabText]}>     Interests Sent    </Text>
+              <Text style={[styles.tabText, {width:"100%", textAlign: 'center', marginLeft:10},activeTab === 0 && styles.activeTabText]}>  Received  </Text>
+            </TouchableOpacity>
+          <TouchableOpacity style={styles.tab} onPress={() => handleTabPress(1)}>
+              <Text style={[styles.tabText, {width:"100%", textAlign: 'center', marginRight:10}, activeTab === 1 && styles.activeTabText]}>      Sent    </Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.tab} onPress={() => handleTabPress(1)}>
-              <Text style={[styles.tabText, activeTab === 1 && styles.activeTabText]}>  Interests Received  </Text>
-            </TouchableOpacity>
+          
            
           </View>
     
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fff',
     borderRadius: 25,
-    marginHorizontal: 20,
+    marginHorizontal: '20%',
     elevation: 3,
     shadowColor: '#000',
     shadowOpacity: 0.1,

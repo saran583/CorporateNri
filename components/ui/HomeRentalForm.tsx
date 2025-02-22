@@ -1,6 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Image, ScrollView, TouchableOpacity, CheckBox, Switch, Modal, FlatList } from "react-native";
+import { View, Text, TextInput, StyleSheet, Image, ScrollView, TouchableOpacity, CheckBox, Switch, Modal, FlatList, Animated } from "react-native";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { Alert } from "react-native";
@@ -32,6 +32,7 @@ const HomeRentalForm = () => {
       advance: "",
       duration: "",
       bathRooms: "",
+      city: "",
       pictures: []
     });
   
@@ -114,24 +115,55 @@ const HomeRentalForm = () => {
 
     if (Object.keys(newErrors).length === 0) {
       console.log("Form Submitted:", form);
+
     }
   };
+
+   const [activeTab, setActiveTab] = useState(0);
+        const translateX = new Animated.Value(activeTab === 0 ? 0 : 1);
+      
+        const handleTabPress = (index) => {
+          setActiveTab(index);
+          handleInputChange("category", index === 0 ? "Rent" : "Sale");
+          Animated.timing(translateX, {
+            toValue: index,
+            duration: 300,
+            useNativeDriver: false,
+          }).start();
+        };
   
     return (
         <ScrollView contentContainerStyle={styles.container}>
-      {/* <Text style={styles.label}>Title</Text>
-      <TextInput
-        style={[styles.input, errors.title && styles.errorInput]}
-        value={form.title}
-        onChangeText={(text) => handleInputChange("title", text)}
-        placeholder="Enter title"
-      />
-      {errors.title && <Text style={styles.errorText}>{errors.title}</Text>} */}
-      
 
-      <View style={styles.rowContainer}>
+      <View style={styles.secondContainer}>
+      <Text style={{...styles.label,textAlign: 'center', fontSize: 16}}>Rental Type</Text>
 
-      <View style={styles.rowItem}>
+          {/* Tabs */}
+          <View style={styles.tabContainer}>
+          <TouchableOpacity style={styles.tab} onPress={() => handleTabPress(0)}>
+              <Text style={[styles.tabText, {width:"100%", textAlign: 'center', marginLeft:10},activeTab === 0 && styles.activeTabText]}>  Rental  </Text>
+            </TouchableOpacity>
+          <TouchableOpacity style={styles.tab} onPress={() => handleTabPress(1)}>
+              <Text style={[styles.tabText, {width:"100%", textAlign: 'center', marginRight:10}, activeTab === 1 && styles.activeTabText]}>      Sale    </Text>
+            </TouchableOpacity>
+            
+          
+           
+          </View>
+    
+          {/* Animated Indicator */}
+          <Animated.View 
+            style={[
+              styles.indicator, 
+              { transform: [{ translateX: translateX.interpolate({
+                  inputRange: [0, 1], 
+                  outputRange: ['0%', '100%'] 
+              }) }] }
+            ]} 
+          />
+        </View>
+
+      {/* <View style={styles.rowItem}>
       <Text style={styles.label}>Rental Type</Text>
       <TouchableOpacity style={[styles.input, errors.category && styles.errorInput]} onPress={() => setModalVisible(true)}>
         <Text style={form.category ? styles.textSelected : styles.textPlaceholder}>
@@ -139,35 +171,31 @@ const HomeRentalForm = () => {
         </Text>
       </TouchableOpacity>
       {errors.category && <Text style={styles.errorText}>{errors.category}</Text>}
-      </View>
+      </View> */}
 
-      {/* Modal for Dropdown */}
-      <Modal visible={modalVisible} transparent animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <FlatList
-              data={categories}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.item}
-                  onPress={() => {
-                    handleInputChange("category", item)
-                    setModalVisible(false);
-                  }}
-                >
-                  <Text style={styles.itemText}>{item}</Text>
-                </TouchableOpacity>
-              )}
-            />
-            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
-              <Text style={styles.closeButtonText}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
+      <Text style={styles.label}>Location</Text>
+      <TextInput
+        style={[styles.input, errors.location && styles.errorInput]}
+        value={form.location}
+        onChangeText={(text) => handleInputChange("location", text)}
+        placeholder="Enter location"
+      />
+      {errors.location && <Text style={styles.errorText}>{errors.location}</Text>}
+
+      <View style={styles.rowContainer}>
+        <View style={styles.rowItem}>
+          <Text style={styles.label}>City</Text>
+          <TextInput
+            style={[styles.input, errors.city && styles.errorInput]}
+            value={form.city}
+            onChangeText={(text) => handleInputChange("city", text)}
+            placeholder="Enter price"
+            keyboardType="numeric"
+          />
+          {errors.city && <Text style={styles.errorText}>{errors.city}</Text>}
         </View>
-      </Modal>
 
-      <View style={styles.rowItem}>
+        <View style={styles.rowItem}>
       <Text style={styles.label}>Pincode</Text>
       <TextInput
         style={[styles.input, errors.pinCode && styles.errorInput]}
@@ -178,16 +206,7 @@ const HomeRentalForm = () => {
       />
       {errors.pinCode && <Text style={styles.errorText}>{errors.pinCode}</Text>}
       </View>
-    </View>
-
-      <Text style={styles.label}>Location</Text>
-      <TextInput
-        style={[styles.input, errors.location && styles.errorInput]}
-        value={form.location}
-        onChangeText={(text) => handleInputChange("location", text)}
-        placeholder="Enter location"
-      />
-      {errors.location && <Text style={styles.errorText}>{errors.location}</Text>}
+      </View>
 
       {form.category == "Rent"?<><View style={styles.rowContainer}>
         <View style={styles.rowItem}>
@@ -379,7 +398,8 @@ const HomeRentalForm = () => {
             style={[styles.input, errors.nearByGroceries && styles.errorInput]}
             value={form.nearByGroceries}
             onChangeText={(text) => handleInputChange("nearByGroceries", text)}
-            placeholder="Enter Near by Groceries"
+            placeholder="Enter Nearby GroceriesGroceriesGroceries"
+            multiline={false}
           />
           {errors.nearByGroceries && <Text style={styles.errorText}>{errors.nearByGroceries}</Text>}
         </View>
@@ -411,7 +431,7 @@ const HomeRentalForm = () => {
 
         <View style={styles.rowItem}>
           <View style={styles.switchContainer}>
-            <Text style={styles.switchLabel}>Pet Friendly?</Text>
+            <Text style={styles.switchLabel}>Pets Allowed?</Text>
             <Switch
               value={form.petFriendly}
               onValueChange={(value) => handleInputChange("petFriendly", value)}
@@ -514,10 +534,12 @@ const HomeRentalForm = () => {
       />
       {errors.features && <Text style={styles.errorText}>{errors.features}</Text>}
 
-      <Text style={styles.label}>Upload Pictures:</Text>
-        <TouchableOpacity onPress={pickImage} style={styles.button}>
-          <Text style={styles.buttonText}>Choose Images</Text>
+      <View style={{flex:1, flexDirection: "row"}}>
+      <Text style={{...styles.label,paddingTop: 5,marginRight:10}}>Upload Pictures:</Text>
+        <TouchableOpacity onPress={pickImage} style={{...styles.button,marginTop:0}}>
+          <Text style={{...styles.buttonText,marginTop:0}}>Choose Images</Text>
         </TouchableOpacity>
+      </View>
       {errors.pictures && <Text style={styles.errorText}>{errors.pictures}</Text>}
 
         {/* Display Selected Images */}
@@ -549,6 +571,7 @@ const HomeRentalForm = () => {
   const styles = StyleSheet.create({
     container: {
       padding: 16,
+      paddingTop: 5,
       backgroundColor: Colors.secondary
     },
     scrollContainer:{
@@ -576,6 +599,7 @@ const HomeRentalForm = () => {
       color: "#555",
     },
     input: {
+      height: 40,
       borderWidth: 1,
       borderColor: "#ccc",
       borderRadius: 8,
@@ -612,6 +636,8 @@ const HomeRentalForm = () => {
       borderRadius: 8,
       alignItems: "center",
       marginTop: 10,
+      width: "50%",
+      marginHorizontal: "auto"
     },
     switchContainer: {
         flexDirection: "row",
@@ -688,6 +714,50 @@ const HomeRentalForm = () => {
     width: 60,
     height: 60,
     margin: "auto",
+  },
+
+  secondContainer: {
+    flex: 1,
+    backgroundColor: Colors.secondary,
+    // paddingTop: 5,
+    height: "100%"
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 25,
+    marginHorizontal: '15%',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+  },
+  tab: {
+    flex: 1,
+    paddingVertical: 5,
+    alignItems: 'center',
+  },
+  tabText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#999',
+    padding: 10
+
+  },
+  activeTabText: {
+    color: Colors.secondary,
+    backgroundColor: Colors.primary,
+    borderRadius: 25,
+    padding: 10
+  },
+  indicator: {
+    position: 'absolute',
+    width: '50%',
+    height: '100%',
+    backgroundColor: '#ddd',
+    borderRadius: 25,
+    zIndex: -1,
   },
   });
   

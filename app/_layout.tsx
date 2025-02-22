@@ -24,6 +24,7 @@ import ProfileScreen from '@/components/ui/ProfilePage';
 import SearchComponent from '@/components/ui/SearchScreen';
 import MessagesScreen from '@/components/ui/MessagesComponent';
 import MessagesPage from '@/components/ui/MessagesPage';
+import SignInScreen from '@/components/ui/SignIn';
 // import messaging from "@react-native-firebase/messaging"
 // import { Alert } from 'react-native';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -88,17 +89,18 @@ export default function RootLayout() {
 {/* <NavigationContainer> */}
       <Stack.Navigator >
         <Stack.Screen name="Splash" component={SplashScreen}  options={{ headerShown: false }} />
-        <Stack.Screen name="Login" component={LoginScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="SignIn" component={LoginScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={SignInScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="SignUp" component={SignUpPage}  options={{ headerShown: false }} />
 
         {/* <Stack.Screen name="Signup" component={SignupScreen} /> */}
         <Stack.Screen name="Home" component={HomeScreen}  options={{ headerShown: false }}          />
-        {/* <Stack.Screen name="Messages" component={MessagesScreen}  options={{
+        <Stack.Screen name="Messages" component={MessagesScreen}  options={{
             headerTitle: "Messages",
             headerStyle: { backgroundColor: Colors.primary },
             headerTintColor: "#fff",
             headerTitleStyle: { fontWeight: "bold" },
-          }}          /> */}
+          }}          />
           <Stack.Screen name="MessagesPage" component={MessagesPage}  options={{
             headerTitle: "Messages",
             headerStyle: { backgroundColor: Colors.primary },

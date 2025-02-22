@@ -89,6 +89,7 @@ const ProfileScreen = () => {
   
       if (!result.canceled) {
         setProfilePic(result.assets);
+        handleEditToggle("profiePic")
       } 
     };
 
